@@ -1,0 +1,12 @@
+{
+  "name": "use-styled-system",
+  "version": "0.0.1",
+  "description": "React hook to implement styled-system functionality within styled-jsx",
+  "main": "src/index.js",
+  "author": "Felix Tellmann",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.13.1",
+    "styled-jsx": "^3.3.0"
+  }
+}
