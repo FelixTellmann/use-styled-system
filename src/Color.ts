@@ -32,7 +32,7 @@ export type ColorProperties<TLength = string | number> = {
   backgroundPositionX?: BackgroundPositionXProperty<TLength> | (BackgroundPositionXProperty<TLength>)[]
   backgroundPositionY?: BackgroundPositionYProperty<TLength> | (BackgroundPositionYProperty<TLength>)[]
   backgroundSize?: BackgroundSizeProperty<TLength> | (BackgroundSizeProperty<TLength>)[]
-  BackdropFilter?: BackdropFilterProperty
+  backdropFilter?: BackdropFilterProperty
   boxShadow?: BoxShadowProperty | (BoxShadowProperty)[]
   outline?: OutlineColorProperty | (OutlineColorProperty)[]
   outlineColor?: OutlineColorProperty | (OutlineColorProperty)[]
@@ -55,7 +55,7 @@ export const Color = {
   backgroundPositionX: "space",
   backgroundPositionY: "space",
   backgroundSize: "space",
-  BackdropFilter: "",
+  backdropFilter: "",
   boxShadow: "",
   outline: "",
   outlineColor: "",
