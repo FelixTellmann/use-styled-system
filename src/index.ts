@@ -179,17 +179,13 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
   }, []).join("");
 };
 
-export function useStyledSystem(props, config) {
+export function useStyledSystem(props, config, remBase) {
   const [styleJsx, setStyleJsx] = useState<string>("");
   const cleanProps = { ...cleanCSSProps(props) };
   const cssProps: CSS = { ...cleanCSSProps(props) };
   
   useEffect(() => {
-    // @ts-ignore
-    process.browser
-    ? setStyleJsx(createStyledJsxStrings(props, config))
-    : createStyledJsxStrings(undefined);
-    
+    setStyleJsx(createStyledJsxStrings(props, config, remBase))
   });
   
   return { styleJsx, cleanProps };
