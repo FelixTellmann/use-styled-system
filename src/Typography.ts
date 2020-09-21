@@ -22,7 +22,7 @@ export type TypographyProperties<TLength = string | number> = {
   letterSpacing?: LetterSpacingProperty<TLength> | (LetterSpacingProperty<TLength>)[]
   textAlign?: TextAlignProperty | (TextAlignProperty)[]
   fontStyle?: FontStyleProperty | (FontStyleProperty)[]
-  textDecoration?: TextDecorationProperty<TLength>, | (TextDecorationProperty<TLength>,)[]
+  textDecoration?: TextDecorationProperty<TLength> | (TextDecorationProperty<TLength>)[]
   textTransform?: TextTransformProperty | (TextTransformProperty)[]
   whiteSpace?: WhiteSpaceProperty | (WhiteSpaceProperty)[]
   wordWrap?: WordWrapProperty | (WordWrapProperty)[]
