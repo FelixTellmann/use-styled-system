@@ -8,11 +8,13 @@ import Other, { OtherProperties } from "./Other";
 import Padding, { PaddingProperties } from "./Padding";
 import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
+import { useEffect, useState } from "react";
+import css from 'styled-jsx/css';
 
 export type Space = PaddingProperties & MarginProperties & SizeProperties
 export type Layout = PositionProperties & FlexProperties & GridProperties
 export type Decor = BorderProperties & ColorProperties & TypographyProperties
-export type All =  Space & Layout & Decor & OtherProperties
+export type All = Space & Layout & Decor & OtherProperties
 export type CSS = All
 
 export type config = {
@@ -36,9 +38,7 @@ export type config = {
   remBase?: number
 }
 
-
-
-export const filterCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other }) ) => {
+export const filterCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
   return Object.keys(props)
       .filter(key => CssOptions.includes(key))
       .reduce((acc, key) => {
@@ -49,7 +49,7 @@ export const filterCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding,
       }, {});
 };
 
-export const cleanCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other }) ) => {
+export const cleanCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
   return Object.keys(props)
       .filter(key => !CssOptions.includes(key))
       .reduce((acc, key) => {
@@ -62,17 +62,15 @@ export const cleanCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, 
 };
 
 function isEmpty(obj) {
-  for(let i in obj) return false;
+  for (let i in obj) return false;
   return true;
 }
 
-export const useStyledSystem = (props: {}, { remBase = 10, ...config }: config = { remBase: 10 }) => {
+export const createStyledJsxStrings = (props: {}, { remBase = 10, ...config }: config = { remBase: 10 }) => {
   /*================ Load Options ================*/
   const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
   const breakPoints = [600, 900, 1200];
   const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
-  
-  
   
   let selectedCSSOptions = Object.entries(config).reduce((acc, [key, value]) => {
     if (!value) return acc;
@@ -122,7 +120,7 @@ export const useStyledSystem = (props: {}, { remBase = 10, ...config }: config =
   }, {});
   
   if (isEmpty(selectedCSSOptions)) {
-    selectedCSSOptions = {...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other }
+    selectedCSSOptions = { ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other };
   }
   
   const filteredProps: CSS = filterCSSProps(props, Object.keys(selectedCSSOptions));
@@ -152,7 +150,7 @@ export const useStyledSystem = (props: {}, { remBase = 10, ...config }: config =
   const toCssProperty = (key, value) => key.replace(/([A-Z])/g, (match) => "-" + match.toLowerCase()) + ": " + convertValue(key, value) + ";\n";
   const filterAbbreviations = ((key, value) => {
     if (Array.isArray(selectedCSSOptions[key])) {
-      return selectedCSSOptions[key].map((k) => toCssProperty(k, value)).join('');
+      return selectedCSSOptions[key].map((k) => toCssProperty(k, value)).join("");
     } else {
       return toCssProperty(key, value);
     }
@@ -184,4 +182,17 @@ export const useStyledSystem = (props: {}, { remBase = 10, ...config }: config =
   }, []).join("");
 };
 
-console.log(useStyledSystem({ p: 12, px: 12, h: 8 }, {Space: true}));
+export default function useStyledSystem(props) {
+  const [styleJsx, setStyleJsx] = useState<string>("");
+  const cleanProps = { ...cleanCSSProps(props) };
+  const cssProps: CSS = { ...cleanCSSProps(props) };
+  
+  useEffect(() => {
+    // @ts-ignore
+    process.browser ? setStyleJsx(createStyledJsxStrings(props)) : createStyledJsxStrings(undefined);
+  },[cssProps]);
+  
+  const { className, styles } = css.resolve`${styleJsx}`;
+  
+  return { styleJsx, cleanProps, className, styles };
+}
