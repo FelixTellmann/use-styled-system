@@ -88,14 +88,14 @@ export const Border = {
   borderRightWidth: "space",
   borderRightColor: "",
   borderRightStyle: "",
-  borderX: "space",
-  borderXWidth: "space",
-  borderXColor: "",
-  borderXStyle: "",
-  borderY: "space",
-  borderYWidth: "space",
-  borderYColor: "",
-  borderYStyle: ""
+  borderX: ["borderLeft", "borderRight"],
+  borderXWidth: ["borderLeftWidth", "borderRightWidth"],
+  borderXColor: ["borderLeftColor", "borderRightColor"],
+  borderXStyle: ["borderLeftStyle", "borderRightStyle"],
+  borderY: ["borderTop", "borderBottom"],
+  borderYWidth: ["borderTopWidth", "borderBottomWidth"],
+  borderYColor: ["borderTopColor", "borderBottomColor"],
+  borderYStyle: ["borderTopStyle", "borderBottomStyle"]
 };
 
 export default Border;

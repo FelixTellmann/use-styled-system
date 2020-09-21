@@ -43,7 +43,7 @@ export type ColorProperties<TLength = string | number> = {
 export const Color = {
   color: "",
   background: "",
-  bg: "",
+  bg: ['background'],
   opacity: "",
   backgroundAttachment: "",
   backgroundClip: "",
