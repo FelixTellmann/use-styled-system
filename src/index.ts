@@ -185,7 +185,6 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
   const [styleJsx, setStyleJsx] = useState<string>("");
   const cleanProps = { ...cleanCSSProps(props) };
   const cssProps: CSS = { ...cleanCSSProps(props) };
-  const { className, styles } = styleJsx || css.resolve`${createStyledJsxStrings(props, config, remBase)}`;
   
   useEffect(() => {
     window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
@@ -196,5 +195,5 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
     setStyleJsx(createStyledJsxStrings(props, config, remBase));
   }, [cssProps]);
   
-  return { styleJsx, cleanProps, className, styles };
+  return { styleJsx, cleanProps };
 }
