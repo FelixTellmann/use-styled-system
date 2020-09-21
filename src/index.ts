@@ -180,7 +180,7 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
   }, []).join("");
 };
 
-export function useStyledSystem(props, config, remBase) {
+export function useStyledSystem(props, config = {}, remBase = 10) {
   const [styleJsx, setStyleJsx] = useState<string>("");
   const cleanProps = { ...cleanCSSProps(props) };
   const cssProps: CSS = { ...cleanCSSProps(props) };
