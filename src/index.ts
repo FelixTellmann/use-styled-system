@@ -125,7 +125,7 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
   const filteredProps: CSS = filterCSSProps(props, Object.keys(selectedCSSOptions));
   
   const convertValue = (key: string, value: number | string) => {
-    if (selectedCSSOptions[key] === "") return value.toString().replace(/^--(.+)/, (match) => `var(--${match})`);
+    if (selectedCSSOptions[key] === "") return value.toString().replace(/^--.+/, (match) => `var(${match})`);
     
     if (typeof value === "number" && value >= 1 && value <= 8 && selectedCSSOptions[key] === "fontSize") {
       return fontSizes[value] / remBase + "rem";
