@@ -191,7 +191,7 @@ export function useStyledSystem(props, config) {
     ? setStyleJsx(createStyledJsxStrings(props, config))
     : createStyledJsxStrings(undefined);
     
-  }, []);
+  });
   
   return { styleJsx, cleanProps };
 }
