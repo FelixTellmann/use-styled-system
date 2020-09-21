@@ -1,6 +1,6 @@
 {
   "name": "use-styled-system",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React hook to implement styled-system functionality within styled-jsx",
   "main": "dist/use-styled-system.js",
   "umd:main": "dist/use-styled-system.umd.js",
@@ -8,6 +8,10 @@
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
   "author": "Felix Tellmann",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FelixTellmann/use-styled-system"
+  },
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "npm run build",
