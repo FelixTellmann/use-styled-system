@@ -9,6 +9,7 @@ import Padding, { PaddingProperties } from "./Padding";
 import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
 import { useEffect, useState } from "react";
+import { css } from "styled-jsx/css";
 
 export type Space = PaddingProperties & MarginProperties & SizeProperties
 export type Layout = PositionProperties & FlexProperties & GridProperties
@@ -184,15 +185,16 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
   const [styleJsx, setStyleJsx] = useState<string>("");
   const cleanProps = { ...cleanCSSProps(props) };
   const cssProps: CSS = { ...cleanCSSProps(props) };
+  const { className, styles } = styleJsx || css.resolve`${createStyledJsxStrings(props, config, remBase)}`;
   
   useEffect(() => {
     window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
     return () => window.removeEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
-  },[]);
+  }, []);
   
   useEffect(() => {
     setStyleJsx(createStyledJsxStrings(props, config, remBase));
-  },[cssProps]);
+  }, [cssProps]);
   
-  return { styleJsx, cleanProps };
+  return { styleJsx, cleanProps, className, styles };
 }
