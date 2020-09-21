@@ -196,11 +196,13 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
 };
 
 export function useStyledSystem(props, config = {}, remBase = 10) {
-  const [styleJsx, setStyleJsx] = useState<string>("");
+  
   const cleanProps = { ...cleanCSSProps(props) };
   const cssProps: CSS = { ...filterCSSProps(props) };
   
   if (hasResponsiveProps(cssProps)) {
+    const [styleJsx, setStyleJsx] = useState<string>("");
+    
     useEffect(() => {
       if (hasResponsiveProps(cssProps)) {
         window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
@@ -211,9 +213,10 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
     useEffect(() => {
       setStyleJsx(createStyledJsxStrings(props, config, remBase));
     }, [cssProps]);
+    return { styleJsx, cleanProps };
   } else {
-    return createStyledJsxStrings(props, config, remBase);
+    return { styleJsx: createStyledJsxStrings(props, config, remBase), cleanProps };
   }
   
-  return { styleJsx, cleanProps };
+  
 }
