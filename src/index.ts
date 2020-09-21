@@ -68,7 +68,7 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
   /*================ Load Options ================*/
   const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
   let breakPoints = [600, 900, 1200];
-  breakPoints.push(99999999)
+  breakPoints.push(99999999);
   const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
   let selectedCSSOptions: {};
   if (isEmpty(config)) {
@@ -158,12 +158,12 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
     
     let valueArray = [];
     
-    if (Array.isArray(value)) {
-      for (let i = 0; i < breakPoints.length; i++) {
+    for (let i = 0; i < breakPoints.length; i++) {
+      if (Array.isArray(value)) {
         valueArray.push(value.length > i ? value[i] : value[value.length - 1]);
+      } else {
+        valueArray.push(value);
       }
-    } else {
-      valueArray = [value, value, value];
     }
     
     if (typeof window === "undefined") {
@@ -186,7 +186,7 @@ export function useStyledSystem(props, config, remBase) {
   const cssProps: CSS = { ...cleanCSSProps(props) };
   
   useEffect(() => {
-    setStyleJsx(createStyledJsxStrings(props, config, remBase))
+    setStyleJsx(createStyledJsxStrings(props, config, remBase));
   });
   
   return { styleJsx, cleanProps };
