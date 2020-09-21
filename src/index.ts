@@ -71,8 +71,11 @@ export const createStyledJsxStrings = (props: {}, { remBase = 10, ...config }: c
   const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
   const breakPoints = [600, 900, 1200];
   const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
-  
-  let selectedCSSOptions = Object.entries(config).reduce((acc, [key, value]) => {
+  let selectedCSSOptions: {}
+  if (isEmpty(config)) {
+    selectedCSSOptions = { ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other };
+  }
+  selectedCSSOptions = Object.entries(config).reduce((acc, [key, value]) => {
     if (!value) return acc;
     if (key === "Padding") {
       acc = { ...acc, ...Padding };
@@ -119,9 +122,6 @@ export const createStyledJsxStrings = (props: {}, { remBase = 10, ...config }: c
     return acc;
   }, {});
   
-  if (isEmpty(selectedCSSOptions)) {
-    selectedCSSOptions = { ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other };
-  }
   
   const filteredProps: CSS = filterCSSProps(props, Object.keys(selectedCSSOptions));
   
