@@ -34,7 +34,6 @@ export type config = {
   
   Other?: boolean
   All?: boolean
-  remBase?: number
 }
 
 export const filterCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
@@ -65,7 +64,7 @@ function isEmpty(obj) {
   return true;
 }
 
-export const createStyledJsxStrings = (props: {}, { remBase = 10, ...config }: config = { remBase: 10 }) => {
+export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: number = 10) => {
   /*================ Load Options ================*/
   const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
   const breakPoints = [600, 900, 1200];
