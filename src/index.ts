@@ -9,7 +9,6 @@ import Padding, { PaddingProperties } from "./Padding";
 import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
 import { useEffect, useState } from "react";
-import css from 'styled-jsx/css';
 
 export type Space = PaddingProperties & MarginProperties & SizeProperties
 export type Layout = PositionProperties & FlexProperties & GridProperties
@@ -71,7 +70,7 @@ export const createStyledJsxStrings = (props: {}, { remBase = 10, ...config }: c
   const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
   const breakPoints = [600, 900, 1200];
   const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
-  let selectedCSSOptions: {}
+  let selectedCSSOptions: {};
   if (isEmpty(config)) {
     selectedCSSOptions = { ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other };
   }
@@ -121,7 +120,6 @@ export const createStyledJsxStrings = (props: {}, { remBase = 10, ...config }: c
     }
     return acc;
   }, {});
-  
   
   const filteredProps: CSS = filterCSSProps(props, Object.keys(selectedCSSOptions));
   
@@ -182,17 +180,18 @@ export const createStyledJsxStrings = (props: {}, { remBase = 10, ...config }: c
   }, []).join("");
 };
 
-export function useStyledSystem(props) {
+export function useStyledSystem(props, config) {
   const [styleJsx, setStyleJsx] = useState<string>("");
   const cleanProps = { ...cleanCSSProps(props) };
   const cssProps: CSS = { ...cleanCSSProps(props) };
   
   useEffect(() => {
     // @ts-ignore
-    process.browser ? setStyleJsx(createStyledJsxStrings(props)) : createStyledJsxStrings(undefined);
-  },[cssProps]);
+    process.browser
+    ? setStyleJsx(createStyledJsxStrings(props, config))
+    : createStyledJsxStrings(undefined);
+    
+  }, []);
   
-  const { className, styles } = css.resolve`${styleJsx}`;
-  
-  return { styleJsx, cleanProps, className, styles };
+  return { styleJsx, cleanProps };
 }
