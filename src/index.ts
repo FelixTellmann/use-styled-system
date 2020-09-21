@@ -186,10 +186,13 @@ export function useStyledSystem(props, config, remBase) {
   const cssProps: CSS = { ...cleanCSSProps(props) };
   
   useEffect(() => {
-    setStyleJsx(createStyledJsxStrings(props, config, remBase));
     window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
     return () => window.removeEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
-  });
+  },[]);
+  
+  useEffect(() => {
+    setStyleJsx(createStyledJsxStrings(props, config, remBase));
+  },[cssProps]);
   
   return { styleJsx, cleanProps };
 }
