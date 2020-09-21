@@ -67,7 +67,8 @@ function isEmpty(obj) {
 export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: number = 10) => {
   /*================ Load Options ================*/
   const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
-  const breakPoints = [600, 900, 1200];
+  let breakPoints = [600, 900, 1200];
+  breakPoints.push(99999999)
   const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
   let selectedCSSOptions: {};
   if (isEmpty(config)) {
