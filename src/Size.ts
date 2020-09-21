@@ -10,21 +10,21 @@ import {
 } from "csstype";
 
 export type SizeProperties<TLength = string | number> = {
-  display?: DisplayProperty
-  d?: DisplayProperty
-  width?: WidthProperty<TLength>
-  w?: WidthProperty<TLength>
-  height?: HeightProperty<TLength>
-  h?: HeightProperty<TLength>
-  minWidth?: MinWidthProperty<TLength>
-  maxWidth?: MaxWidthProperty<TLength>
-  minHeight?: MinHeightProperty<TLength>
-  maxHeight?: MaxHeightProperty<TLength>
-  minW?: MinWidthProperty<TLength>
-  maxW?: MaxWidthProperty<TLength>
-  minH?: MinHeightProperty<TLength>
-  maxH?: MaxHeightProperty<TLength>
-  verticalAlign?: VerticalAlignProperty<string | 0>
+  display?: DisplayProperty | (DisplayProperty)[]
+  d?: DisplayProperty | (DisplayProperty)[]
+  width?: WidthProperty<TLength> | (WidthProperty<TLength>)[]
+  w?: WidthProperty<TLength> | (WidthProperty<TLength>)[]
+  height?: HeightProperty<TLength> | (HeightProperty<TLength>)[]
+  h?: HeightProperty<TLength> | (HeightProperty<TLength>)[]
+  minWidth?: MinWidthProperty<TLength> | (MinWidthProperty<TLength>)[]
+  maxWidth?: MaxWidthProperty<TLength> | (MaxWidthProperty<TLength>)[]
+  minHeight?: MinHeightProperty<TLength> | (MinHeightProperty<TLength>)[]
+  maxHeight?: MaxHeightProperty<TLength> | (MaxHeightProperty<TLength>)[]
+  minW?: MinWidthProperty<TLength> | (MinWidthProperty<TLength>)[]
+  maxW?: MaxWidthProperty<TLength> | (MaxWidthProperty<TLength>)[]
+  minH?: MinHeightProperty<TLength> | (MinHeightProperty<TLength>)[]
+  maxH?: MaxHeightProperty<TLength> | (MaxHeightProperty<TLength>)[]
+  verticalAlign?: VerticalAlignProperty<string | 0> | (VerticalAlignProperty<string | 0>)[]
 }
 
 export const Size = {

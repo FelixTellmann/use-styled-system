@@ -19,25 +19,25 @@ import {
 } from "csstype";
 
 export type ColorProperties<TLength = string | number> = {
-  color?: ColorProperty
-  background?: BackgroundProperty<TLength>
-  bg?: BackgroundProperty<TLength>
-  opacity?: OpacityProperty
-  backgroundAttachment?: BackgroundAttachmentProperty
-  backgroundClip?: BackgroundClipProperty
-  backgroundColor?: BackgroundColorProperty
-  backgroundImage?: BackgroundImageProperty
-  backgroundOrigin?: BackgroundOriginProperty
-  backgroundPositionX?: BackgroundPositionXProperty<TLength>
-  backgroundPositionY?: BackgroundPositionYProperty<TLength>
-  backgroundSize?: BackgroundSizeProperty<TLength>
-  boxShadow?: BoxShadowProperty
-  outline?: OutlineColorProperty
-  outlineColor?: OutlineColorProperty
-  outlineOffset?: OutlineOffsetProperty<TLength>
-  outlineStyle?: OutlineStyleProperty
-  outlineWidth?: OutlineWidthProperty<TLength>
-  visibility?: VisibilityProperty
+  color?: ColorProperty | (ColorProperty)[]
+  background?: BackgroundProperty<TLength> | (BackgroundProperty<TLength>)[]
+  bg?: BackgroundProperty<TLength> | (BackgroundProperty<TLength>)[]
+  opacity?: OpacityProperty | (OpacityProperty)[]
+  backgroundAttachment?: BackgroundAttachmentProperty | (BackgroundAttachmentProperty)[]
+  backgroundClip?: BackgroundClipProperty | (BackgroundClipProperty)[]
+  backgroundColor?: BackgroundColorProperty | (BackgroundColorProperty)[]
+  backgroundImage?: BackgroundImageProperty | (BackgroundImageProperty)[]
+  backgroundOrigin?: BackgroundOriginProperty | (BackgroundOriginProperty)[]
+  backgroundPositionX?: BackgroundPositionXProperty<TLength> | (BackgroundPositionXProperty<TLength>)[]
+  backgroundPositionY?: BackgroundPositionYProperty<TLength> | (BackgroundPositionYProperty<TLength>)[]
+  backgroundSize?: BackgroundSizeProperty<TLength> | (BackgroundSizeProperty<TLength>)[]
+  boxShadow?: BoxShadowProperty | (BoxShadowProperty)[]
+  outline?: OutlineColorProperty | (OutlineColorProperty)[]
+  outlineColor?: OutlineColorProperty | (OutlineColorProperty)[]
+  outlineOffset?: OutlineOffsetProperty<TLength> | (OutlineOffsetProperty<TLength>)[]
+  outlineStyle?: OutlineStyleProperty | (OutlineStyleProperty)[]
+  outlineWidth?: OutlineWidthProperty<TLength> | (OutlineWidthProperty<TLength>)[]
+  visibility?: VisibilityProperty | (VisibilityProperty)[]
 }
 
 export const Color = {

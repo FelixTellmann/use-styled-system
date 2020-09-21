@@ -7,20 +7,20 @@ import {
 } from "csstype";
 
 export type MarginProperties<TLength = string | number> = {
-  margin?: MarginProperty<TLength>
-  marginTop?: MarginTopProperty<TLength>
-  marginRight?: MarginRightProperty<TLength>
-  marginBottom?: MarginBottomProperty<TLength>
-  marginLeft?: MarginLeftProperty<TLength>
-  marginX?: MarginLeftProperty<TLength> & MarginRightProperty<TLength>
-  marginY?: MarginTopProperty<TLength> & MarginBottomProperty<TLength>
-  m?: MarginProperty<TLength>
-  mt?: MarginTopProperty<TLength>
-  mr?: MarginRightProperty<TLength>
-  mb?: MarginBottomProperty<TLength>
-  ml?: MarginLeftProperty<TLength>
-  mx?: MarginLeftProperty<TLength> & MarginRightProperty<TLength>
-  my?: MarginTopProperty<TLength> & MarginBottomProperty<TLength>
+  margin?: MarginProperty<TLength> | (MarginProperty<TLength>)[]
+  marginTop?: MarginTopProperty<TLength> | (MarginTopProperty<TLength>)[]
+  marginRight?: MarginRightProperty<TLength> | (MarginRightProperty<TLength>)[]
+  marginBottom?: MarginBottomProperty<TLength> | (MarginBottomProperty<TLength>)[]
+  marginLeft?: MarginLeftProperty<TLength> | (MarginLeftProperty<TLength>)[]
+  marginX?: MarginLeftProperty<TLength> & MarginRightProperty<TLength> | (MarginLeftProperty<TLength> & MarginRightProperty<TLength>)[]
+  marginY?: MarginTopProperty<TLength> & MarginBottomProperty<TLength> | (MarginTopProperty<TLength> & MarginBottomProperty<TLength>)[]
+  m?: MarginProperty<TLength> | (MarginProperty<TLength>)[]
+  mt?: MarginTopProperty<TLength> | (MarginTopProperty<TLength>)[]
+  mr?: MarginRightProperty<TLength> | (MarginRightProperty<TLength>)[]
+  mb?: MarginBottomProperty<TLength> | (MarginBottomProperty<TLength>)[]
+  ml?: MarginLeftProperty<TLength> | (MarginLeftProperty<TLength>)[]
+  mx?: MarginLeftProperty<TLength> & MarginRightProperty<TLength> | (MarginLeftProperty<TLength> & MarginRightProperty<TLength>)[]
+  my?: MarginTopProperty<TLength> & MarginBottomProperty<TLength> | (MarginTopProperty<TLength> & MarginBottomProperty<TLength>)[]
 }
 
 export const Margin = {

@@ -10,14 +10,14 @@ import {
 } from "csstype";
 
 export type PositionProperties<TLength = string | number> = {
-  position?: PositionProperty
-  top?: TopProperty<TLength>
-  right?: RightProperty<TLength>
-  bottom?: BottomProperty<TLength>
-  left?: LeftProperty<TLength>
-  overflowX?: OverflowXProperty
-  overflowY?: OverflowYProperty
-  zIndex?: ZIndexProperty
+  position?: PositionProperty | (PositionProperty)[]
+  top?: TopProperty<TLength> | (TopProperty<TLength>)[]
+  right?: RightProperty<TLength> | (RightProperty<TLength>)[]
+  bottom?: BottomProperty<TLength> | (BottomProperty<TLength>)[]
+  left?: LeftProperty<TLength> | (LeftProperty<TLength>)[]
+  overflowX?: OverflowXProperty | (OverflowXProperty)[]
+  overflowY?: OverflowYProperty | (OverflowYProperty)[]
+  zIndex?: ZIndexProperty | (ZIndexProperty)[]
 }
 
 export const Position = {

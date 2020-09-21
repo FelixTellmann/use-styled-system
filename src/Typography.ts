@@ -15,18 +15,18 @@ import {
 } from "csstype";
 
 export type TypographyProperties<TLength = string | number> = {
-  fontFamily?: FontFamilyProperty
-  fontSize?: FontSizeProperty<TLength>
-  fontWeight?: FontWeightProperty | GlobalsNumber
-  lineHeight?: LineHeightProperty<TLength>
-  letterSpacing?: LetterSpacingProperty<TLength>
-  textAlign?: TextAlignProperty
-  fontStyle?: FontStyleProperty
-  textDecoration?: TextDecorationProperty<TLength>,
-  textTransform?: TextTransformProperty
-  whiteSpace?: WhiteSpaceProperty
-  wordWrap?: WordWrapProperty
-  wordBreak?: WordBreakProperty
+  fontFamily?: FontFamilyProperty | (FontFamilyProperty)[]
+  fontSize?: FontSizeProperty<TLength> | (FontSizeProperty<TLength>)[]
+  fontWeight?: FontWeightProperty | GlobalsNumber | (FontWeightProperty | GlobalsNumber)[]
+  lineHeight?: LineHeightProperty<TLength> | (LineHeightProperty<TLength>)[]
+  letterSpacing?: LetterSpacingProperty<TLength> | (LetterSpacingProperty<TLength>)[]
+  textAlign?: TextAlignProperty | (TextAlignProperty)[]
+  fontStyle?: FontStyleProperty | (FontStyleProperty)[]
+  textDecoration?: TextDecorationProperty<TLength>, | (TextDecorationProperty<TLength>,)[]
+  textTransform?: TextTransformProperty | (TextTransformProperty)[]
+  whiteSpace?: WhiteSpaceProperty | (WhiteSpaceProperty)[]
+  wordWrap?: WordWrapProperty | (WordWrapProperty)[]
+  wordBreak?: WordBreakProperty | (WordBreakProperty)[]
 }
 
 export const Typography = {

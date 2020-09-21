@@ -12,21 +12,21 @@ import {
 } from "csstype";
 
 export type FlexProperties<TLength = string | number> = {
-  justifyContent?: JustifyContentProperty
-  justify?: JustifyContentProperty
-  alignItems?: AlignItemsProperty
-  align?: AlignItemsProperty
-  alignContent?: AlignContentProperty
-  flexDirection?: FlexDirectionProperty
-  direction?: FlexDirectionProperty
-  flex?: FlexProperty<GlobalsNumber>
-  flexWrap?: FlexWrapProperty
-  wrap?: FlexWrapProperty
-  flexBasis?: FlexBasisProperty<GlobalsNumber>
+  justifyContent?: JustifyContentProperty | (JustifyContentProperty)[]
+  justify?: JustifyContentProperty | (JustifyContentProperty)[]
+  alignItems?: AlignItemsProperty | (AlignItemsProperty)[]
+  align?: AlignItemsProperty | (AlignItemsProperty)[]
+  alignContent?: AlignContentProperty | (AlignContentProperty)[]
+  flexDirection?: FlexDirectionProperty | (FlexDirectionProperty)[]
+  direction?: FlexDirectionProperty | (FlexDirectionProperty)[]
+  flex?: FlexProperty<GlobalsNumber> | (FlexProperty<GlobalsNumber>)[]
+  flexWrap?: FlexWrapProperty | (FlexWrapProperty)[]
+  wrap?: FlexWrapProperty | (FlexWrapProperty)[]
+  flexBasis?: FlexBasisProperty<GlobalsNumber> | (FlexBasisProperty<GlobalsNumber>)[]
   flexGrow?: GlobalsNumber
   flexShrink?: GlobalsNumber
-  alignSelf?: AlignSelfProperty
-  justifySelf?: JustifySelfProperty
+  alignSelf?: AlignSelfProperty | (AlignSelfProperty)[]
+  justifySelf?: JustifySelfProperty | (JustifySelfProperty)[]
   order?: GlobalsNumber
 }
 

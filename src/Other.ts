@@ -10,16 +10,16 @@ import {
 } from "csstype";
 
 export type OtherProperties<TLength = string | number> = {
-  fill?: FillProperty
-  stroke?: StrokeProperty
-  transition?: TransitionProperty
-  transform?: TransformProperty
-  cursor?: CursorProperty
-  resize?: ResizeProperty
-  objectFit?: ObjectFitProperty
-  userSelect?: UserSelectProperty
-  appearance?: AppearanceProperty
-  pointerEvents?: PointerEventsProperty
+  fill?: FillProperty | (FillProperty)[]
+  stroke?: StrokeProperty | (StrokeProperty)[]
+  transition?: TransitionProperty | (TransitionProperty)[]
+  transform?: TransformProperty | (TransformProperty)[]
+  cursor?: CursorProperty | (CursorProperty)[]
+  resize?: ResizeProperty | (ResizeProperty)[]
+  objectFit?: ObjectFitProperty | (ObjectFitProperty)[]
+  userSelect?: UserSelectProperty | (UserSelectProperty)[]
+  appearance?: AppearanceProperty | (AppearanceProperty)[]
+  pointerEvents?: PointerEventsProperty | (PointerEventsProperty)[]
 }
 
 export const Other = {
