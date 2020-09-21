@@ -9,7 +9,7 @@ import {
   WidthProperty
 } from "csstype";
 
-export type Size<TLength = string | number> = {
+export type SizeProperties<TLength = string | number> = {
   display?: DisplayProperty
   d?: DisplayProperty
   width?: WidthProperty<TLength>

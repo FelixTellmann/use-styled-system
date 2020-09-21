@@ -9,7 +9,7 @@ import {
   TransitionProperty, UserSelectProperty
 } from "csstype";
 
-export type Other<TLength = string | number> = {
+export type OtherProperties<TLength = string | number> = {
   fill?: FillProperty
   stroke?: StrokeProperty
   transition?: TransitionProperty

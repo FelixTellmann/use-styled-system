@@ -18,7 +18,7 @@ import {
   VisibilityProperty
 } from "csstype";
 
-export type Color<TLength = string | number> = {
+export type ColorProperties<TLength = string | number> = {
   color?: ColorProperty
   background?: BackgroundProperty<TLength>
   bg?: BackgroundProperty<TLength>

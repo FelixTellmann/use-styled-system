@@ -6,7 +6,7 @@ import {
   PaddingTopProperty
 } from "csstype";
 
-export type Padding<TLength = string | number> = {
+export type PaddingProperties<TLength = string | number> = {
   padding?: PaddingProperty<TLength>
   paddingTop?: PaddingTopProperty<TLength>
   paddingRight?: PaddingRightProperty<TLength>

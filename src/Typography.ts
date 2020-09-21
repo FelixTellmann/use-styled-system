@@ -14,7 +14,7 @@ import {
   WordWrapProperty
 } from "csstype";
 
-export type Typography<TLength = string | number> = {
+export type TypographyProperties<TLength = string | number> = {
   fontFamily?: FontFamilyProperty
   fontSize?: FontSizeProperty<TLength>
   fontWeight?: FontWeightProperty | GlobalsNumber

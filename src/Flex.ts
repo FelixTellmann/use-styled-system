@@ -11,7 +11,7 @@ import {
   JustifySelfProperty
 } from "csstype";
 
-export type Flex<TLength = string | number> = {
+export type FlexProperties<TLength = string | number> = {
   justifyContent?: JustifyContentProperty
   justify?: JustifyContentProperty
   alignItems?: AlignItemsProperty

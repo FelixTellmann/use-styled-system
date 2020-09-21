@@ -9,7 +9,7 @@ import {
   ZIndexProperty
 } from "csstype";
 
-export type Position<TLength = string | number> = {
+export type PositionProperties<TLength = string | number> = {
   position?: PositionProperty
   top?: TopProperty<TLength>
   right?: RightProperty<TLength>

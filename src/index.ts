@@ -1,13 +1,19 @@
-import Border from "./Border";
-import Color from "./Color";
-import Flex from "./Flex";
-import Grid from "./Grid";
-import Size from "./Size";
-import Margin from "./Margin";
-import Other from "./Other";
-import Padding from "./Padding";
-import Position from "./Position";
-import Typography from "./Typography";
+import Border, { BorderProperties } from "./Border";
+import Color, { ColorProperties } from "./Color";
+import Flex, { FlexProperties } from "./Flex";
+import Grid, { GridProperties } from "./Grid";
+import Size, { SizeProperties } from "./Size";
+import Margin, { MarginProperties } from "./Margin";
+import Other, { OtherProperties } from "./Other";
+import Padding, { PaddingProperties } from "./Padding";
+import Position, { PositionProperties } from "./Position";
+import Typography, { TypographyProperties } from "./Typography";
+
+export type Space = PaddingProperties & MarginProperties & SizeProperties
+export type Layout = PositionProperties & FlexProperties & GridProperties
+export type Decor = BorderProperties & ColorProperties & TypographyProperties
+export type All =  Space & Layout & Decor & OtherProperties
+export type CSS = All
 
 export type config = {
   Padding?: boolean
@@ -29,6 +35,8 @@ export type config = {
   All?: boolean
   remBase?: number
 }
+
+
 
 export const filterCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other }) ) => {
   return Object.keys(props)
@@ -53,6 +61,11 @@ export const cleanCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, 
       }, {});
 };
 
+function isEmpty(obj) {
+  for(let i in obj) return false;
+  return true;
+}
+
 export const useStyledSystem = (props: {}, { remBase = 10, ...config }: config = { remBase: 10 }) => {
   /*================ Load Options ================*/
   const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
@@ -61,7 +74,7 @@ export const useStyledSystem = (props: {}, { remBase = 10, ...config }: config =
   
   
   
-  const selectedCSSOptions = Object.entries(config).reduce((acc, [key, value]) => {
+  let selectedCSSOptions = Object.entries(config).reduce((acc, [key, value]) => {
     if (!value) return acc;
     if (key === "Padding") {
       acc = { ...acc, ...Padding };
@@ -107,7 +120,12 @@ export const useStyledSystem = (props: {}, { remBase = 10, ...config }: config =
     }
     return acc;
   }, {});
-  const filteredProps = filterCSSProps(props, Object.keys(selectedCSSOptions));
+  
+  if (isEmpty(selectedCSSOptions)) {
+    selectedCSSOptions = {...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other }
+  }
+  
+  const filteredProps: CSS = filterCSSProps(props, Object.keys(selectedCSSOptions));
   
   const convertValue = (key: string, value: number | string) => {
     if (selectedCSSOptions[key] === "") return value.toString();
@@ -166,4 +184,4 @@ export const useStyledSystem = (props: {}, { remBase = 10, ...config }: config =
   }, []).join("");
 };
 
-console.log(useStyledSystem({ p: 12, px: 12, h: 8 }, { Padding: true, Size: true }));
+console.log(useStyledSystem({ p: 12, px: 12, h: 8 }, {Space: true}));

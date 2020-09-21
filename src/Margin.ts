@@ -6,7 +6,7 @@ import {
   MarginTopProperty
 } from "csstype";
 
-export type Margin<TLength = string | number> = {
+export type MarginProperties<TLength = string | number> = {
   margin?: MarginProperty<TLength>
   marginTop?: MarginTopProperty<TLength>
   marginRight?: MarginRightProperty<TLength>

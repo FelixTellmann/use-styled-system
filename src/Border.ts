@@ -26,7 +26,7 @@ import {
   BorderWidthProperty
 } from "csstype";
 
-export type Border<TLength = string | number> = {
+export type BorderProperties<TLength = string | number> = {
   border?: BorderProperty<TLength>
   borderWidth?: BorderWidthProperty<TLength>
   borderColor?: BorderColorProperty

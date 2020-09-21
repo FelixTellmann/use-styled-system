@@ -13,7 +13,7 @@ import {
   GridTemplateRowsProperty
 } from "csstype";
 
-export type Grid<TLength = string | number> = {
+export type GridProperties<TLength = string | number> = {
   gridGap?: GridGapProperty<TLength>
   gridRowGap?: GridRowGapProperty<TLength>
   gridColumnGap?: GridColumnGapProperty<TLength>
