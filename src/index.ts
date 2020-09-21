@@ -66,10 +66,13 @@ function isEmpty(obj) {
 }
 
 const hasResponsiveProps = (props) => {
+  let boolean = false;
   Object.values(props).forEach((value) => {
-    if (Array.isArray(value)) return true;
+    if (Array.isArray(value)) {
+      boolean = true;
+    }
   });
-  return false;
+  return boolean;
 };
 
 export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: number = 10) => {
