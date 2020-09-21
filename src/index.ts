@@ -65,6 +65,13 @@ function isEmpty(obj) {
   return true;
 }
 
+const hasResponsiveProps = (props) => {
+  Object.values(props).forEach((value) => {
+    if (Array.isArray(value)) return true;
+  });
+  return false;
+};
+
 export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: number = 10) => {
   /*================ Load Options ================*/
   const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
@@ -155,26 +162,32 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
     }
   });
   
+  let responsive = hasResponsiveProps(filteredProps);
+  
   return Object.entries(filteredProps).reduce((acc, [key, value]) => {
     
-    let valueArray = [];
-    
-    for (let i = 0; i < breakPoints.length; i++) {
-      if (Array.isArray(value)) {
-        valueArray.push(value.length > i ? value[i] : value[value.length - 1]);
-      } else {
-        valueArray.push(value);
-      }
-    }
-    
-    if (typeof window === "undefined") {
-      acc.push(filterAbbreviations(key, valueArray[0]));
-    } else {
-      breakPoints.forEach((bp, index) => {
-        if (window.innerWidth > (breakPoints[index - 1] || 0) && window.innerWidth <= bp) {
-          acc.push(filterAbbreviations(key, valueArray[index]));
+    if (responsive) {
+      let valueArray = [];
+      
+      for (let i = 0; i < breakPoints.length; i++) {
+        if (Array.isArray(value)) {
+          valueArray.push(value.length > i ? value[i] : value[value.length - 1]);
+        } else {
+          valueArray.push(value);
         }
-      });
+      }
+      
+      if (typeof window === "undefined") {
+        acc.push(filterAbbreviations(key, valueArray[0]));
+      } else {
+        breakPoints.forEach((bp, index) => {
+          if (window.innerWidth > (breakPoints[index - 1] || 0) && window.innerWidth <= bp) {
+            acc.push(filterAbbreviations(key, valueArray[index]));
+          }
+        });
+      }
+    } else {
+      acc.push(filterAbbreviations(key, value));
     }
     
     return acc;
@@ -187,8 +200,10 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
   const cssProps: CSS = { ...cleanCSSProps(props) };
   
   useEffect(() => {
-    window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
-    return () => window.removeEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
+    if (hasResponsiveProps(cssProps)) {
+      window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
+      return () => window.removeEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
+    }
   }, []);
   
   useEffect(() => {
