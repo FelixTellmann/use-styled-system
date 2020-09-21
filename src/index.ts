@@ -52,7 +52,6 @@ export const cleanCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, 
   return Object.keys(props)
       .filter(key => !CssOptions.includes(key))
       .reduce((acc, key) => {
-        
         return {
           ...acc,
           [key]: props[key]
@@ -200,7 +199,7 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
 export function useStyledSystem(props, config = {}, remBase = 10) {
   const [styleJsx, setStyleJsx] = useState<string>("");
   const cleanProps = { ...cleanCSSProps(props) };
-  const cssProps: CSS = { ...cleanCSSProps(props) };
+  const cssProps: CSS = { ...filterCSSProps(props) };
   
   useEffect(() => {
     if (hasResponsiveProps(cssProps)) {
