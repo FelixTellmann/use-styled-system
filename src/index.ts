@@ -9,7 +9,6 @@ import Padding, { PaddingProperties } from "./Padding";
 import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
 import { useEffect, useState } from "react";
-import { css } from "styled-jsx/css";
 
 export type Space = PaddingProperties & MarginProperties & SizeProperties
 export type Layout = PositionProperties & FlexProperties & GridProperties
@@ -201,16 +200,20 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
   const cleanProps = { ...cleanCSSProps(props) };
   const cssProps: CSS = { ...filterCSSProps(props) };
   
-  useEffect(() => {
-    if (hasResponsiveProps(cssProps)) {
-      window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
-      return () => window.removeEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
-    }
-  }, []);
-  
-  useEffect(() => {
-    setStyleJsx(createStyledJsxStrings(props, config, remBase));
-  }, [cssProps]);
+  if (hasResponsiveProps(cssProps)) {
+    useEffect(() => {
+      if (hasResponsiveProps(cssProps)) {
+        window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
+        return () => window.removeEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
+      }
+    }, []);
+    
+    useEffect(() => {
+      setStyleJsx(createStyledJsxStrings(props, config, remBase));
+    }, [cssProps]);
+  } else {
+    return createStyledJsxStrings(props, config, remBase);
+  }
   
   return { styleJsx, cleanProps };
 }
