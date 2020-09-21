@@ -182,7 +182,7 @@ export const createStyledJsxStrings = (props: {}, { remBase = 10, ...config }: c
   }, []).join("");
 };
 
-export default function useStyledSystem(props) {
+export function useStyledSystem(props) {
   const [styleJsx, setStyleJsx] = useState<string>("");
   const cleanProps = { ...cleanCSSProps(props) };
   const cssProps: CSS = { ...cleanCSSProps(props) };
