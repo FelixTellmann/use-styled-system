@@ -215,7 +215,14 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
     }, [cssProps]);
     return { styleJsx, cleanProps };
   } else {
-    return { styleJsx: createStyledJsxStrings(props, config, remBase), cleanProps };
+    
+    const [styleJsx, setStyleJsx] = useState<string>("");
+    
+    useEffect(() => {
+      setStyleJsx(createStyledJsxStrings(props, config, remBase));
+    }, [cssProps]);
+    
+    return { styleJsx: styleJsx || createStyledJsxStrings(props, config, remBase), cleanProps };
   }
   
   
