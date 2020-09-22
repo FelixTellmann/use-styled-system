@@ -208,7 +208,7 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
         window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
         return () => window.removeEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
       }
-    }, []);
+    }, [window.innerWidth]);
     
     useEffect(() => {
       setStyleJsx(createStyledJsxStrings(props, config, remBase));
