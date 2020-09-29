@@ -57,14 +57,10 @@ export function useStyledSystem(props, { remBase = 10, breakPoints = [600, 900, 
     useEffect(() => {
       breakPoints.forEach((bp) => {
         const mq = window.matchMedia(`(min-width: ${bp}px`);
+        console.log(mq)
         mq.addListener(handleResize);
         handleResize(mq);
       });
-      
-      /* return breakPoints.forEach((bp) => {
-         const mq = window.matchMedia(`(min-width: ${bp}px`);
-         mq.removeListener(handleResize);
-       });*/
     }, []);
   }
   
