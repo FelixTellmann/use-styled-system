@@ -1,5 +1,5 @@
-import { splitProps, hasResponsiveProps, createStyledJsxStrings } from "./_utils";
-import React, { useState, useEffect, createContext, useContext, FC } from "react";
+import { createStyledJsxStrings, splitProps } from "./_utils";
+import React, { createContext, FC, useContext, useEffect, useState } from "react";
 import { PaddingProperties } from "./Padding";
 import { MarginProperties } from "./Margin";
 import { SizeProperties } from "./Size";
@@ -16,6 +16,8 @@ export type Layout = PositionProperties & FlexProperties & GridProperties
 export type Decor = BorderProperties & ColorProperties & TypographyProperties
 export type All = Space & Layout & Decor & OtherProperties
 export type CSS = All
+
+const BreakpointContext = createContext({});
 
 export type config = {
   Padding?: boolean
@@ -40,29 +42,9 @@ export type config = {
   space?: (number)[]
 }
 
-export function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
-  
-  const { cssProps, nonCssProps } = splitProps(props);
-  
-  const [styleJsx, setStyleJsx] = useState<string>("");
-  
-  useEffect(() => {
-    setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }));
-  }, [cssProps]);
-  
-  return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }), nonCssProps };
-  
-}
 
-const defaultValue = {};
 
-const BreakpointContext = createContext(defaultValue);
-
-type BreakPointProviderProps = {
-  breakPoints: number[]
-}
-
-export const BreakpointProvider: FC<BreakPointProviderProps> = ({ children, breakPoints }) => {
+export const BreakpointProvider = ({ children, breakPoints }) => {
   const [breakPointIndex, setBreakPointIndex] = useState(0);
   
   useEffect(() => {
@@ -108,8 +90,22 @@ export const BreakpointProvider: FC<BreakPointProviderProps> = ({ children, brea
 
 export const useBreakpoint = () => {
   const context = useContext(BreakpointContext);
-  if(context === defaultValue) {
-    throw new Error('useBreakpoint must be used within BreakpointProvider');
+  if (context === {}) {
+    throw new Error("useBreakpoint must be used within BreakpointProvider");
   }
   return context;
 };
+
+export function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
+  
+  const { cssProps, nonCssProps } = splitProps(props);
+  
+  const [styleJsx, setStyleJsx] = useState<string>("");
+  
+  useEffect(() => {
+    setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }));
+  }, [cssProps]);
+  
+  return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }), nonCssProps };
+}
+
