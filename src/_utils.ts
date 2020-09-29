@@ -121,11 +121,11 @@ export const createStyledJsxStrings = (props: {}, { remBase, fontSizes, space, b
         converter = selectedCSSOptions[key];
       }
       
-      if (typeof value === "number" && value >= 1 && value <= 8 && converter === "fontSize") {
+      if (typeof value === "number" && value >= 0 && value <= fontSizes.length && converter === "fontSize") {
         return fontSizes[value] / remBase + "rem";
       }
       
-      if (typeof value === "number" && value >= 1 && value <= 8 && converter === "space") {
+      if (typeof value === "number" && value >= 0 && value <= space.length && converter === "space") {
         return space[value] / remBase + "rem";
       }
       
