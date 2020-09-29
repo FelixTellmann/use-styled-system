@@ -1,5 +1,5 @@
 import { createStyledJsxStrings, splitProps } from "./_utils";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PaddingProperties } from "./Padding";
 import { MarginProperties } from "./Margin";
 import { SizeProperties } from "./Size";
@@ -93,17 +93,17 @@ const BreakpointProvider = ({ children, breakPoints }) => {
   );
 };
 
-const useBreakpoint = () => {
-  return useContext(BreakpointContext);
-};
+
 
 function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
-  const breakPointIndex = useBreakpoint()
+  const breakPointIndex = React.useContext(BreakpointContext)
+  console.log(breakPointIndex)
   const { cssProps, nonCssProps } = splitProps(props);
   
   const [styleJsx, setStyleJsx] = useState<string>("");
   
   useEffect(() => {
+    console.log(breakPointIndex)
     setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, breakPointIndex, ...config }));
   }, [breakPointIndex]);
   
@@ -114,4 +114,4 @@ function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24,
   return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, fontSizes, space, breakPointIndex, ...config }), nonCssProps };
 }
 
-export { BreakpointProvider, useBreakpoint, useStyledSystem };
+export { BreakpointProvider, useStyledSystem };
