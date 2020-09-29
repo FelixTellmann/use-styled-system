@@ -54,7 +54,7 @@ export function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 
   
 }
 
-const defaultValue = 0;
+const defaultValue = {};
 
 const BreakpointContext = createContext(defaultValue);
 
@@ -100,7 +100,7 @@ export const BreakpointProvider: FC<BreakPointProviderProps> = ({ children, brea
   }, [breakPoints]);
   
   return (
-      <BreakpointContext.Provider value={breakPointIndex}>
+      <BreakpointContext.Provider value={{ index: breakPointIndex }}>
         {children}
       </BreakpointContext.Provider>
   );
