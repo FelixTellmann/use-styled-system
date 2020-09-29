@@ -8,7 +8,7 @@ import Other, { OtherProperties } from "./Other";
 import Padding, { PaddingProperties } from "./Padding";
 import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
-import { config } from "./index";
+import { config, useBreakpoint } from "./index";
 
 export const splitProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
   
@@ -51,7 +51,7 @@ export const hasResponsiveProps = (props) => {
   return false;
 };
 
-export const createStyledJsxStrings = (props: {}, { remBase, breakPoints, fontSizes, space, ...config }: config) => {
+export const createStyledJsxStrings = (props: {}, { remBase,  fontSizes, space, ...config }: config) => {
   /*================ Load Options ================*/
   let selectedCSSOptions: {};
   if (isEmpty(config)) {
@@ -149,11 +149,11 @@ export const createStyledJsxStrings = (props: {}, { remBase, breakPoints, fontSi
   
   return Object.entries(cssProps).reduce((acc, [key, value]) => {
     // check if responsive
-    if (Array.isArray(value)) {
-      if (typeof window === "undefined") {
-        acc.push(expandToCssPropertyStrings(key, value[0]));
-      } else {
-        breakPoints.forEach((bp, index) => {
+    if (Array.isArray(value) && typeof window !== "undefined") {
+      
+        const breakPointIndex = useBreakpoint()
+        acc.push(expandToCssPropertyStrings(key, value[breakPointIndex + 1] || value[value.length - 1]))
+        /*breakPoints.forEach((bp, index) => {
           // if window is loaded
           const mq = window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1] && ` and (max-width: ${breakPoints[index + 1]}px`}`);
           
@@ -166,11 +166,11 @@ export const createStyledJsxStrings = (props: {}, { remBase, breakPoints, fontSi
             ? acc.push(expandToCssPropertyStrings(key, value[index + 1] || value[value.length - 1]))
             : acc.push(expandToCssPropertyStrings(key, value[0]));
           });
-        });
-      }
+        });*/
+     
       // if not responsive
     } else {
-      acc.push(expandToCssPropertyStrings(key, value));
+      acc.push(expandToCssPropertyStrings(key, Array.isArray(value) ? value[0] : value));
     }
     
     return acc;
