@@ -18,8 +18,8 @@
     "test": "jest --verbose --coverage --silent",
     "test:watch": "jest --watch --runInBand --silent",
     "prebuild": "rimraf dist",
-    "build": "microbundle -o dist/ --sourcemap false --target web",
-    "dev": "microbundle watch -o dist/ --sourcemap false --compress false"
+    "build": "microbundle -o dist/ --jsx --sourcemap false --target web",
+    "dev": "microbundle watch -o dist/ --jsx --sourcemap false --compress false"
   },
   "peerDependencies": {
     "react": "^16.13.1",

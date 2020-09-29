@@ -19,9 +19,7 @@ export type Decor = BorderProperties & ColorProperties & TypographyProperties
 export type All = Space & Layout & Decor & OtherProperties
 export type CSS = All
 
-let BreakpointContext;
-let { Provider } = (BreakpointContext = React.createContext({index: 0}))
-
+const BreakpointContext = React.createContext({index: 0});
 
 export type config = {
   Padding?: boolean
@@ -88,9 +86,9 @@ const BreakpointProvider = ({ children, breakPoints }) => {
   }, [breakPoints]);
   
   return (
-      <Provider value={{ index: breakPointIndex }}>
+      <BreakpointContext.Provider value={{ index: breakPointIndex }}>
         {children}
-      </Provider>
+      </BreakpointContext.Provider>
   );
 };
 
@@ -103,17 +101,17 @@ const useBreakpoint = () => {
   return context;
 };
 
-function useStyledSystem(props, config: config, remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512]) {
+function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
   
   const { cssProps, nonCssProps } = splitProps(props);
   
   const [styleJsx, setStyleJsx] = useState<string>('');
   
   useEffect(() => {
-    setStyleJsx(createStyledJsxStrings(props, config, remBase, fontSizes, space));
+    setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }));
   }, [cssProps]);
   
-  return { styleJsx: styleJsx || createStyledJsxStrings(props, config, remBase, fontSizes, space), nonCssProps };
+  return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }), nonCssProps };
 }
 
-export {BreakpointProvider, /*useBreakpoint,*/ useStyledSystem}
+export {BreakpointProvider, useBreakpoint, useStyledSystem}

@@ -8,7 +8,7 @@ import Other, { OtherProperties } from "./Other";
 import Padding, { PaddingProperties } from "./Padding";
 import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
-import { config } from "./index";
+import { config, useBreakpoint } from "./index";
 export { Padding, Margin, Size, Position, Flex, Grid, Border, Color, Typography, Other }
 
 export const splitProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
@@ -52,7 +52,7 @@ export const hasResponsiveProps = (props) => {
   return false;
 };
 
-export const createStyledJsxStrings = (props: {}, config: config, remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512]) => {
+export const createStyledJsxStrings = (props: {}, { remBase,  fontSizes, space, ...config }: config) => {
   /*================ Load Options ================*/
   let selectedCSSOptions: {};
   if (isEmpty(config)) {
