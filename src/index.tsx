@@ -107,5 +107,9 @@ export const BreakpointProvider: FC<BreakPointProviderProps> = ({ children, brea
 };
 
 export const useBreakpoint = () => {
-  return useContext(BreakpointContext)
+  const context = useContext(BreakpointContext);
+  if(context === defaultValue) {
+    throw new Error('useBreakpoint must be used within BreakpointProvider');
+  }
+  return context;
 };
