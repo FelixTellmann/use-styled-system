@@ -6,7 +6,7 @@
   "umd:main": "dist/use-styled-system.umd.js",
   "module": "dist/use-styled-system.m.js",
   "types": "dist/index.d.ts",
-  "source": "src/index.ts",
+  "source": "src/index.tsx",
   "author": "Felix Tellmann",
   "repository": {
     "type": "git",
