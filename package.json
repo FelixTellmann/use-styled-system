@@ -1,6 +1,6 @@
 {
   "name": "use-styled-system",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React hook to implement styled-system functionality within styled-jsx",
   "main": "dist/use-styled-system.js",
   "umd:main": "dist/use-styled-system.umd.js",
