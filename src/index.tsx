@@ -19,7 +19,7 @@ export type Decor = BorderProperties & ColorProperties & TypographyProperties
 export type All = Space & Layout & Decor & OtherProperties
 export type CSS = All
 
-const BreakpointContext = React.createContext({});
+const BreakpointContext = React.createContext({index: 0});
 
 export type config = {
   Padding?: boolean
