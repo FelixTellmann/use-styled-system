@@ -1,5 +1,5 @@
 import { createStyledJsxStrings, splitProps } from "./_utils";
-import React, { createContext, FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { PaddingProperties } from "./Padding";
 import { MarginProperties } from "./Margin";
 import { SizeProperties } from "./Size";
@@ -19,7 +19,7 @@ export type Decor = BorderProperties & ColorProperties & TypographyProperties
 export type All = Space & Layout & Decor & OtherProperties
 export type CSS = All
 
-const BreakpointContext = createContext({});
+const BreakpointContext = React.createContext({});
 
 export type config = {
   Padding?: boolean
@@ -43,8 +43,6 @@ export type config = {
   fontSizes?: (number)[]
   space?: (number)[]
 }
-
-
 
 export const BreakpointProvider = ({ children, breakPoints }) => {
   const [breakPointIndex, setBreakPointIndex] = useState(0);
