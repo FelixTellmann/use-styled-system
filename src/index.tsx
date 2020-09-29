@@ -97,14 +97,12 @@ const BreakpointProvider = ({ children, breakPoints }) => {
 
 function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
   const breakPointIndex = React.useContext(BreakpointContext)
-  console.log(breakPointIndex)
   const { cssProps, nonCssProps } = splitProps(props);
   
   const [styleJsx, setStyleJsx] = useState<string>("");
   
   useEffect(() => {
-    console.log(breakPointIndex)
-    setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, breakPointIndex, ...config }));
+    setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, breakPointIndex: breakPointIndex, ...config }));
   }, [breakPointIndex]);
   
   useEffect(() => {

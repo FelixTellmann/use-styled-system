@@ -53,7 +53,7 @@ export const hasResponsiveProps = (props) => {
   return false;
 };
 
-export const createStyledJsxStrings = (props: {}, { remBase, fontSizes, space, breakPointIndex = 0, ...config }: config) => {
+export const createStyledJsxStrings = (props: {}, { remBase, fontSizes, space, breakPointIndex, ...config }: config) => {
   /*================ Load Options ================*/
   let selectedCSSOptions: {};
   if (isEmpty(config)) {
@@ -152,6 +152,7 @@ export const createStyledJsxStrings = (props: {}, { remBase, fontSizes, space, b
   return Object.entries(cssProps).reduce((acc, [key, value]) => {
     // check if responsive
     if (Array.isArray(value) && typeof window !== "undefined") {
+      console.log(breakPointIndex)
       acc.push(expandToCssPropertyStrings(key, value[breakPointIndex + 1] || value[value.length - 1]));
       /*breakPoints.forEach((bp, index) => {
         // if window is loaded
