@@ -44,7 +44,7 @@ export type config = {
   space?: (number)[]
 }
 
-export const BreakpointProvider = ({ children, breakPoints }) => {
+const BreakpointProvider = ({ children, breakPoints }) => {
   const [breakPointIndex, setBreakPointIndex] = useState(0);
   
   useEffect(() => {
@@ -92,7 +92,8 @@ export const BreakpointProvider = ({ children, breakPoints }) => {
   );
 };
 
-export const useBreakpoint = () => {
+
+const useBreakpoint = () => {
   const context = useContext(BreakpointContext);
   if (context === {}) {
     throw new Error('useBreakpoint must be used within BreakpointProvider');
@@ -100,7 +101,7 @@ export const useBreakpoint = () => {
   return context;
 };
 
-export function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
+function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
   
   const { cssProps, nonCssProps } = splitProps(props);
   
@@ -113,3 +114,4 @@ export function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 
   return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }), nonCssProps };
 }
 
+export {BreakpointProvider, useBreakpoint, useStyledSystem}
