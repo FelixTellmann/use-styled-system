@@ -64,9 +64,13 @@ export const BreakpointProvider = ({ children, breakPoints }) => {
     if (window && window.matchMedia) {
       let matches = 0;
       breakPoints.forEach((bp, index) => {
-        mediaQueryLists.push(window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1] && ` and (max-width: ${breakPoints[index + 1] - 1}px`}`));
+        console.log(breakPoints[index + 1]);
+        mediaQueryLists.push(window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1]
+                                                                                 ? ` and (max-width: ${breakPoints[index + 1] - 1}px`
+                                                                                 : ''}`));
         matches = mediaQueryLists[index].matches ? index : matches;
       });
+      console.log(mediaQueryLists);
       setBreakPointIndex(matches);
       isAttached = true;
       breakPoints.forEach((bp, index) => {
@@ -93,7 +97,7 @@ export const BreakpointProvider = ({ children, breakPoints }) => {
 export const useBreakpoint = () => {
   const context = useContext(BreakpointContext);
   if (context === {}) {
-    throw new Error("useBreakpoint must be used within BreakpointProvider");
+    throw new Error('useBreakpoint must be used within BreakpointProvider');
   }
   return context;
 };
@@ -102,7 +106,7 @@ export function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 
   
   const { cssProps, nonCssProps } = splitProps(props);
   
-  const [styleJsx, setStyleJsx] = useState<string>("");
+  const [styleJsx, setStyleJsx] = useState<string>('');
   
   useEffect(() => {
     setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }));
