@@ -63,13 +63,11 @@ const BreakpointProvider = ({ children, breakPoints }) => {
     if (window && window.matchMedia) {
       let matches = 0;
       breakPoints.forEach((bp, index) => {
-        console.log(breakPoints[index + 1]);
         mediaQueryLists.push(window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1]
                                                                                  ? ` and (max-width: ${breakPoints[index + 1] - 1}px`
                                                                                  : ""}`));
         matches = mediaQueryLists[index].matches ? index : matches;
       });
-      console.log(mediaQueryLists);
       setBreakPointIndex(matches);
       isAttached = true;
       breakPoints.forEach((bp, index) => {
