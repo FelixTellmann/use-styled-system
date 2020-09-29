@@ -1,5 +1,5 @@
 import { createStyledJsxStrings, splitProps } from "./_utils";
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PaddingProperties } from "./Padding";
 import { MarginProperties } from "./Margin";
 import { SizeProperties } from "./Size";
@@ -11,7 +11,7 @@ import { ColorProperties } from "./Color";
 import { TypographyProperties } from "./Typography";
 import { OtherProperties } from "./Other";
 
-export { Padding, Margin, Size, Position, Flex, Grid, Border, Color, Typography, Other } from './_utils'
+export { Padding, Margin, Size, Position, Flex, Grid, Border, Color, Typography, Other } from "./_utils";
 
 export type Space = PaddingProperties & MarginProperties & SizeProperties
 export type Layout = PositionProperties & FlexProperties & GridProperties
@@ -19,7 +19,7 @@ export type Decor = BorderProperties & ColorProperties & TypographyProperties
 export type All = Space & Layout & Decor & OtherProperties
 export type CSS = All
 
-const BreakpointContext = React.createContext({index: 0});
+const BreakpointContext = React.createContext(0);
 
 export type config = {
   Padding?: boolean
@@ -65,7 +65,7 @@ const BreakpointProvider = ({ children, breakPoints }) => {
         console.log(breakPoints[index + 1]);
         mediaQueryLists.push(window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1]
                                                                                  ? ` and (max-width: ${breakPoints[index + 1] - 1}px`
-                                                                                 : ''}`));
+                                                                                 : ""}`));
         matches = mediaQueryLists[index].matches ? index : matches;
       });
       console.log(mediaQueryLists);
@@ -86,26 +86,21 @@ const BreakpointProvider = ({ children, breakPoints }) => {
   }, [breakPoints]);
   
   return (
-      <BreakpointContext.Provider value={{ index: breakPointIndex }}>
+      <BreakpointContext.Provider value={breakPointIndex}>
         {children}
       </BreakpointContext.Provider>
   );
 };
 
-
 const useBreakpoint = () => {
-  const context = useContext(BreakpointContext);
-  if (context === {}) {
-    throw new Error('useBreakpoint must be used within BreakpointProvider');
-  }
-  return context;
+  return useContext(BreakpointContext);
 };
 
 function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
   
   const { cssProps, nonCssProps } = splitProps(props);
   
-  const [styleJsx, setStyleJsx] = useState<string>('');
+  const [styleJsx, setStyleJsx] = useState<string>("");
   
   useEffect(() => {
     setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }));
@@ -114,4 +109,4 @@ function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24,
   return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }), nonCssProps };
 }
 
-export {BreakpointProvider, useBreakpoint, useStyledSystem}
+export { BreakpointProvider, useBreakpoint, useStyledSystem };
