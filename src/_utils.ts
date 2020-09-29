@@ -52,7 +52,7 @@ export const hasResponsiveProps = (props) => {
   return false;
 };
 
-export const createStyledJsxStrings = (props: {}, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) => {
+export const createStyledJsxStrings = (props: {}, config: config, remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512]) => {
   /*================ Load Options ================*/
   let selectedCSSOptions: {};
   if (isEmpty(config)) {
