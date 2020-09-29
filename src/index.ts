@@ -33,7 +33,7 @@ export function useStyledSystem(props, { remBase = 10, breakPoints = [600, 900, 
   
   function handleResize(e) {
     if (e.matches) {
-      () => setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
+      setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
     }
   }
   
@@ -45,10 +45,10 @@ export function useStyledSystem(props, { remBase = 10, breakPoints = [600, 900, 
         handleResize(mq);
       });
   
-      return breakPoints.forEach((bp) => {
+     /* return breakPoints.forEach((bp) => {
         const mq = window.matchMedia(`(min-width: ${bp}px`);
         mq.removeListener(handleResize);
-      });
+      });*/
     }, []);
     
     useEffect(() => {
