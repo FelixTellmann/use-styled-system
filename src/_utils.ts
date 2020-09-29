@@ -10,6 +10,7 @@ import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
 import { config, useBreakpoint } from "./index";
 export { Padding, Margin, Size, Position, Flex, Grid, Border, Color, Typography, Other }
+
 export const splitProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
   
   return Object.keys(props).reduce(({ cssProps, nonCssProps }, key) => {
