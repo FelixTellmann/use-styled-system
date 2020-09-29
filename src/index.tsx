@@ -110,4 +110,4 @@ function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24,
   return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, fontSizes, space, breakPointIndex, ...config }), nonCssProps };
 }
 
-export { BreakpointProvider, useStyledSystem };
+export { BreakpointProvider, useStyledSystem, BreakpointContext};
