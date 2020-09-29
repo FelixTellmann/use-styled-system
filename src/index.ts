@@ -55,12 +55,7 @@ export function useStyledSystem(props, { remBase = 10, breakPoints = [600, 900, 
   
   if (hasResponsiveProps(cssProps)) {
     useEffect(() => {
-      breakPoints.forEach((bp) => {
-        const mq = window.matchMedia(`(min-width: ${bp}px`);
-        console.log(mq)
-        mq.addListener(handleResize);
-        handleResize(mq);
-      });
+      setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
     }, []);
   }
   

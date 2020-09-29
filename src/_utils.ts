@@ -10,8 +10,6 @@ import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
 import { config } from "./index";
 
-
-
 export const splitProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
   
   return Object.keys(props).reduce(({ cssProps, nonCssProps }, key) => {
@@ -157,9 +155,17 @@ export const createStyledJsxStrings = (props: {}, { remBase, breakPoints, fontSi
       } else {
         breakPoints.forEach((bp, index) => {
           // if window is loaded
-          window.matchMedia(`min-width: ${bp}px`).matches
+          const mq = window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1] && ` and (max-width: ${breakPoints[index + 1]}px`}`);
+          
+          mq.matches
           ? acc.push(expandToCssPropertyStrings(key, value[index + 1] || value[value.length - 1]))
           : acc.push(expandToCssPropertyStrings(key, value[0]));
+          
+          mq.addListener((e) => {
+            e.matches
+            ? acc.push(expandToCssPropertyStrings(key, value[index + 1] || value[value.length - 1]))
+            : acc.push(expandToCssPropertyStrings(key, value[0]));
+          });
         });
       }
       // if not responsive
