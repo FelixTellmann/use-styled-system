@@ -1,5 +1,21 @@
-import { CSS, splitProps, hasResponsiveProps, createStyledJsxStrings } from "./_utils";
+import { splitProps, hasResponsiveProps, createStyledJsxStrings } from "./_utils";
 import { useEffect, useState } from "react";
+import { PaddingProperties } from "./Padding";
+import { MarginProperties } from "./Margin";
+import { SizeProperties } from "./Size";
+import { PositionProperties } from "./Position";
+import { FlexProperties } from "./Flex";
+import { GridProperties } from "./Grid";
+import { BorderProperties } from "./Border";
+import { ColorProperties } from "./Color";
+import { TypographyProperties } from "./Typography";
+import { OtherProperties } from "./Other";
+
+export type Space = PaddingProperties & MarginProperties & SizeProperties
+export type Layout = PositionProperties & FlexProperties & GridProperties
+export type Decor = BorderProperties & ColorProperties & TypographyProperties
+export type All = Space & Layout & Decor & OtherProperties
+export type CSS = All
 
 export type config = {
   Padding?: boolean
@@ -50,8 +66,6 @@ export function useStyledSystem(props, { remBase = 10, breakPoints = [600, 900, 
          mq.removeListener(handleResize);
        });*/
     }, []);
-    
-    return { styleJsx, nonCssProps };
   }
   
   useEffect(() => {

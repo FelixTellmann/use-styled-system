@@ -10,11 +10,7 @@ import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
 import { config } from "./index";
 
-export type Space = PaddingProperties & MarginProperties & SizeProperties
-export type Layout = PositionProperties & FlexProperties & GridProperties
-export type Decor = BorderProperties & ColorProperties & TypographyProperties
-export type All = Space & Layout & Decor & OtherProperties
-export type CSS = All
+
 
 export const splitProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
   
