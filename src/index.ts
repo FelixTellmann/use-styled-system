@@ -44,24 +44,20 @@ export function useStyledSystem(props, { remBase = 10, breakPoints = [600, 900, 
         mq.addListener(handleResize);
         handleResize(mq);
       });
-  
-     /* return breakPoints.forEach((bp) => {
-        const mq = window.matchMedia(`(min-width: ${bp}px`);
-        mq.removeListener(handleResize);
-      });*/
+      
+      /* return breakPoints.forEach((bp) => {
+         const mq = window.matchMedia(`(min-width: ${bp}px`);
+         mq.removeListener(handleResize);
+       });*/
     }, []);
     
-    useEffect(() => {
-      setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
-    }, [cssProps]);
-    
     return { styleJsx, nonCssProps };
-  } else {
-    
-    useEffect(() => {
-      setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
-    }, [cssProps]);
-    
-    return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }), nonCssProps };
   }
+  
+  useEffect(() => {
+    setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
+  }, [cssProps]);
+  
+  return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }), nonCssProps };
+  
 }
