@@ -19,7 +19,9 @@ export type Decor = BorderProperties & ColorProperties & TypographyProperties
 export type All = Space & Layout & Decor & OtherProperties
 export type CSS = All
 
-const BreakpointContext = React.createContext({index: 0});
+let BreakpointContext;
+let { Provider } = (BreakpointContext = React.createContext({index: 0}))
+
 
 export type config = {
   Padding?: boolean
@@ -86,9 +88,9 @@ const BreakpointProvider = ({ children, breakPoints }) => {
   }, [breakPoints]);
   
   return (
-      <BreakpointContext.Provider value={{ index: breakPointIndex }}>
+      <Provider value={{ index: breakPointIndex }}>
         {children}
-      </BreakpointContext.Provider>
+      </Provider>
   );
 };
 
@@ -114,4 +116,4 @@ function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24,
   return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, fontSizes, space, ...config }), nonCssProps };
 }
 
-export {BreakpointProvider, useBreakpoint, useStyledSystem}
+export {BreakpointProvider, /*useBreakpoint,*/ useStyledSystem}

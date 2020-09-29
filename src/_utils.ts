@@ -8,7 +8,7 @@ import Other, { OtherProperties } from "./Other";
 import Padding, { PaddingProperties } from "./Padding";
 import Position, { PositionProperties } from "./Position";
 import Typography, { TypographyProperties } from "./Typography";
-import { config, useBreakpoint } from "./index";
+import { config } from "./index";
 export { Padding, Margin, Size, Position, Flex, Grid, Border, Color, Typography, Other }
 
 export const splitProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
