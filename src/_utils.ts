@@ -152,7 +152,7 @@ export const createStyledJsxStrings = (props: {}, { remBase, fontSizes, space, b
   return Object.entries(cssProps).reduce((acc, [key, value]) => {
     // check if responsive
     if (Array.isArray(value) && typeof window !== "undefined") {
-      acc.push(expandToCssPropertyStrings(key, value[breakPointIndex] || value[value.length - 1]));
+      acc.push(expandToCssPropertyStrings(key,  value[breakPointIndex] || value[breakPointIndex] === 0 ? value[breakPointIndex] : value[value.length - 1]));
       // if not responsive
     } else {
       acc.push(expandToCssPropertyStrings(key, Array.isArray(value) ? value[0] : value));
