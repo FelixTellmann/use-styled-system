@@ -133,13 +133,21 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
   const filteredProps: CSS = filterCSSProps(props, Object.keys(selectedCSSOptions));
   
   const convertValue = (key: string, value: number | string) => {
-    if (selectedCSSOptions[key] === "") return value.toString().replace(/^--.+/, (match) => `var(${match})`);
+    function toStringAndVariables(value) {return value.toString().replace(/^--.+/, (match) => `var(${match})`);}
+    let converter = ''
+    if (selectedCSSOptions[key] === "") {
+      return toStringAndVariables(value);
+    } else if (Array.isArray(selectedCSSOptions[key])) {
+      converter = selectedCSSOptions[key][0]
+    } else {
+      converter = selectedCSSOptions[key]
+    }
     
-    if (typeof value === "number" && value >= 1 && value <= 8 && selectedCSSOptions[key] === "fontSize") {
+    if (typeof value === "number" && value >= 1 && value <= 8 && converter === "fontSize") {
       return fontSizes[value] / remBase + "rem";
     }
     
-    if (typeof value === "number" && value >= 1 && value <= 8 && selectedCSSOptions[key] === "space") {
+    if (typeof value === "number" && value >= 1 && value <= 8 && converter === "space") {
       return space[value] / remBase + "rem";
     }
     
@@ -148,16 +156,16 @@ export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: 
     }
     
     if (typeof value === "string") {
-      return value.match(/(px)$/) ? +value.replace("px", "") / remBase + "rem" : value.toString();
+      return value.match(/(px)$/) ? +value.replace("px", "") / remBase + "rem" : toStringAndVariables(value);
     }
     
-    return value.toString();
+    return toStringAndVariables(value);
   };
   
   const toCssProperty = (key, value) => key.replace(/([A-Z])/g, (match) => "-" + match.toLowerCase()) + ": " + convertValue(key, value) + ";\n";
   const filterAbbreviations = ((key, value) => {
     if (Array.isArray(selectedCSSOptions[key])) {
-      return selectedCSSOptions[key].map((k) => toCssProperty(k, value)).join("");
+      return selectedCSSOptions[key].map((k) => toCssProperty(k === "" || k === "space" || k === "fontSize" ? key : k, value)).join("");
     } else {
       return toCssProperty(key, value);
     }
@@ -224,6 +232,4 @@ export function useStyledSystem(props, config = {}, remBase = 10) {
     
     return { styleJsx: styleJsx || createStyledJsxStrings(props, config, remBase), cleanProps };
   }
-  
-  
 }
