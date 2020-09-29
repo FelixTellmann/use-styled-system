@@ -151,8 +151,8 @@ export const createStyledJsxStrings = (props: {}, { remBase,  fontSizes, space, 
     // check if responsive
     if (Array.isArray(value) && typeof window !== "undefined") {
       
-        const breakPointIndex = useBreakpoint()
-        acc.push(expandToCssPropertyStrings(key, value[breakPointIndex + 1] || value[value.length - 1]))
+        /*const breakPointIndex = useBreakpoint()
+        acc.push(expandToCssPropertyStrings(key, value[breakPointIndex + 1] || value[value.length - 1]))*/
         /*breakPoints.forEach((bp, index) => {
           // if window is loaded
           const mq = window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1] && ` and (max-width: ${breakPoints[index + 1]}px`}`);
