@@ -105,7 +105,7 @@ function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24,
   
   useEffect(() => {
     setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, breakPointIndex, ...config }));
-  }, []);
+  }, [breakPointIndex]);
   
   useEffect(() => {
     setStyleJsx(createStyledJsxStrings(props, { remBase, fontSizes, space, breakPointIndex, ...config }));
