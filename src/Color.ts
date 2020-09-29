@@ -26,6 +26,7 @@ export type ColorProperties<TLength = string | number> = {
   opacity?: OpacityProperty | (OpacityProperty)[]
   backgroundAttachment?: BackgroundAttachmentProperty | (BackgroundAttachmentProperty)[]
   backgroundClip?: BackgroundClipProperty | (BackgroundClipProperty)[]
+  ['-webkit-background-clip']?: BackgroundClipProperty | (BackgroundClipProperty)[]
   backgroundColor?: BackgroundColorProperty | (BackgroundColorProperty)[]
   backgroundImage?: BackgroundImageProperty | (BackgroundImageProperty)[]
   backgroundOrigin?: BackgroundOriginProperty | (BackgroundOriginProperty)[]
@@ -33,6 +34,7 @@ export type ColorProperties<TLength = string | number> = {
   backgroundPositionY?: BackgroundPositionYProperty<TLength> | (BackgroundPositionYProperty<TLength>)[]
   backgroundSize?: BackgroundSizeProperty<TLength> | (BackgroundSizeProperty<TLength>)[]
   backdropFilter?: BackdropFilterProperty
+  ['-webkit-backdropFilter']?: BackdropFilterProperty
   boxShadow?: BoxShadowProperty | (BoxShadowProperty)[]
   outline?: OutlineColorProperty | (OutlineColorProperty)[]
   outlineColor?: OutlineColorProperty | (OutlineColorProperty)[]
@@ -48,14 +50,16 @@ export const Color = {
   bg: ['background'],
   opacity: "",
   backgroundAttachment: "",
-  backgroundClip: "",
+  backgroundClip: ["", '-webkit-background-clip'],
+  ['-webkit-background-clip']: "",
   backgroundColor: "",
   backgroundImage: "",
   backgroundOrigin: "",
   backgroundPositionX: "space",
   backgroundPositionY: "space",
   backgroundSize: "space",
-  backdropFilter: "",
+  backdropFilter: ["", '-webkit-backdropFilter'],
+  ['-webkit-backdropFilter']: "",
   boxShadow: "",
   outline: "",
   outlineColor: "",
