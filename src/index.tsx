@@ -11,6 +11,8 @@ import { ColorProperties } from "./Color";
 import { TypographyProperties } from "./Typography";
 import { OtherProperties } from "./Other";
 
+export { Padding, Margin, Size, Position, Flex, Grid, Border, Color, Typography, Other } from './_utils'
+
 export type Space = PaddingProperties & MarginProperties & SizeProperties
 export type Layout = PositionProperties & FlexProperties & GridProperties
 export type Decor = BorderProperties & ColorProperties & TypographyProperties
