@@ -1,20 +1,5 @@
-import Border, { BorderProperties } from "./Border";
-import Color, { ColorProperties } from "./Color";
-import Flex, { FlexProperties } from "./Flex";
-import Grid, { GridProperties } from "./Grid";
-import Size, { SizeProperties } from "./Size";
-import Margin, { MarginProperties } from "./Margin";
-import Other, { OtherProperties } from "./Other";
-import Padding, { PaddingProperties } from "./Padding";
-import Position, { PositionProperties } from "./Position";
-import Typography, { TypographyProperties } from "./Typography";
+import { CSS, splitProps, hasResponsiveProps, createStyledJsxStrings } from "./_utils";
 import { useEffect, useState } from "react";
-
-export type Space = PaddingProperties & MarginProperties & SizeProperties
-export type Layout = PositionProperties & FlexProperties & GridProperties
-export type Decor = BorderProperties & ColorProperties & TypographyProperties
-export type All = Space & Layout & Decor & OtherProperties
-export type CSS = All
 
 export type config = {
   Padding?: boolean
@@ -34,202 +19,49 @@ export type config = {
   
   Other?: boolean
   All?: boolean
+  remBase?: number
+  breakPoints?: (number)[]
+  fontSizes?: (number)[]
+  space?: (number)[]
 }
 
-export const filterCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
-  return Object.keys(props)
-      .filter(key => CssOptions.includes(key))
-      .reduce((acc, key) => {
-        return {
-          ...acc,
-          [key]: props[key]
-        };
-      }, {});
-};
-
-export const cleanCSSProps = (props: {}, CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })) => {
-  return Object.keys(props)
-      .filter(key => !CssOptions.includes(key))
-      .reduce((acc, key) => {
-        return {
-          ...acc,
-          [key]: props[key]
-        };
-      }, {});
-};
-
-function isEmpty(obj) {
-  for (let i in obj) return false;
-  return true;
-}
-
-const hasResponsiveProps = (props) => {
-  let boolean = false;
-  Object.values(props).forEach((value) => {
-    if (Array.isArray(value)) {
-      boolean = true;
+export function useStyledSystem(props, { remBase = 10, breakPoints = [600, 900, 1200], fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], space = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config) {
+  
+  const { cssProps, nonCssProps } = splitProps(props);
+  
+  const [styleJsx, setStyleJsx] = useState<string>("");
+  
+  function handleResize(e) {
+    if (e.matches) {
+      () => setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
     }
-  });
-  return boolean;
-};
-
-export const createStyledJsxStrings = (props: {}, config: config = {}, remBase: number = 10) => {
-  /*================ Load Options ================*/
-  const fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72];
-  let breakPoints = [600, 900, 1200];
-  breakPoints.push(99999999);
-  const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
-  let selectedCSSOptions: {};
-  if (isEmpty(config)) {
-    selectedCSSOptions = { ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other };
   }
-  selectedCSSOptions = Object.entries(config).reduce((acc, [key, value]) => {
-    if (!value) return acc;
-    if (key === "Padding") {
-      acc = { ...acc, ...Padding };
-    }
-    if (key === "Margin") {
-      acc = { ...acc, ...Margin };
-    }
-    if (key === "Size") {
-      acc = { ...acc, ...Size };
-    }
-    if (key === "Space") {
-      acc = { ...acc, ...Padding, ...Margin, ...Size };
-    }
-    if (key === "Position") {
-      acc = { ...acc, ...Position };
-    }
-    if (key === "Flex") {
-      acc = { ...acc, ...Flex };
-    }
-    if (key === "Grid") {
-      acc = { ...acc, ...Grid };
-    }
-    if (key === "Layout") {
-      acc = { ...acc, ...Position, ...Flex, ...Grid };
-    }
-    if (key === "Border") {
-      acc = { ...acc, ...Border };
-    }
-    if (key === "Color") {
-      acc = { ...acc, ...Color };
-    }
-    if (key === "Typography") {
-      acc = { ...acc, ...Typography };
-    }
-    if (key === "Decor") {
-      acc = { ...acc, ...Border, ...Color, ...Typography };
-    }
-    if (key === "other") {
-      acc = { ...acc, ...Other };
-    }
-    if (key === "All") {
-      acc = { ...acc, ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other };
-    }
-    return acc;
-  }, {});
-  
-  const filteredProps: CSS = filterCSSProps(props, Object.keys(selectedCSSOptions));
-  
-  const convertValue = (key: string, value: number | string) => {
-    function toStringAndVariables(value) {return value.toString().replace(/^--.+/, (match) => `var(${match})`);}
-    let converter = ''
-    if (selectedCSSOptions[key] === "") {
-      return toStringAndVariables(value);
-    } else if (Array.isArray(selectedCSSOptions[key])) {
-      converter = selectedCSSOptions[key][0]
-    } else {
-      converter = selectedCSSOptions[key]
-    }
-    
-    if (typeof value === "number" && value >= 1 && value <= 8 && converter === "fontSize") {
-      return fontSizes[value] / remBase + "rem";
-    }
-    
-    if (typeof value === "number" && value >= 1 && value <= 8 && converter === "space") {
-      return space[value] / remBase + "rem";
-    }
-    
-    if (typeof value === "number" && value > 8) {
-      return value / remBase + "rem";
-    }
-    
-    if (typeof value === "string") {
-      return value.match(/(px)$/) ? +value.replace("px", "") / remBase + "rem" : toStringAndVariables(value);
-    }
-    
-    return toStringAndVariables(value);
-  };
-  
-  const toCssProperty = (key, value) => key.replace(/([A-Z])/g, (match) => "-" + match.toLowerCase()) + ": " + convertValue(key, value) + ";\n";
-  const filterAbbreviations = ((key, value) => {
-    if (Array.isArray(selectedCSSOptions[key])) {
-      return selectedCSSOptions[key].map((k) => toCssProperty(k === "" || k === "space" || k === "fontSize" ? key : k, value)).join("");
-    } else {
-      return toCssProperty(key, value);
-    }
-  });
-  
-  let responsive = hasResponsiveProps(filteredProps);
-  
-  return Object.entries(filteredProps).reduce((acc, [key, value]) => {
-    
-    if (responsive) {
-      let valueArray = [];
-      
-      for (let i = 0; i < breakPoints.length; i++) {
-        if (Array.isArray(value)) {
-          valueArray.push(value.length > i ? value[i] : value[value.length - 1]);
-        } else {
-          valueArray.push(value);
-        }
-      }
-      
-      if (typeof window === "undefined") {
-        acc.push(filterAbbreviations(key, valueArray[0]));
-      } else {
-        breakPoints.forEach((bp, index) => {
-          if (window.innerWidth > (breakPoints[index - 1] || 0) && window.innerWidth <= bp) {
-            acc.push(filterAbbreviations(key, valueArray[index]));
-          }
-        });
-      }
-    } else {
-      acc.push(filterAbbreviations(key, value));
-    }
-    
-    return acc;
-  }, []).join("");
-};
-
-export function useStyledSystem(props, config = {}, remBase = 10) {
-  
-  const cleanProps = { ...cleanCSSProps(props) };
-  const cssProps: CSS = { ...filterCSSProps(props) };
   
   if (hasResponsiveProps(cssProps)) {
-    const [styleJsx, setStyleJsx] = useState<string>("");
-    
     useEffect(() => {
-      if (hasResponsiveProps(cssProps)) {
-        window.addEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
-        return () => window.removeEventListener("resize", () => setStyleJsx(createStyledJsxStrings(props, config, remBase)));
-      }
+      breakPoints.forEach((bp) => {
+        const mq = window.matchMedia(`(min-width: ${bp}px`);
+        mq.addListener(handleResize);
+        handleResize(mq);
+      });
+  
+      return breakPoints.forEach((bp) => {
+        const mq = window.matchMedia(`(min-width: ${bp}px`);
+        mq.removeListener(handleResize);
+      });
     }, []);
     
     useEffect(() => {
-      setStyleJsx(createStyledJsxStrings(props, config, remBase));
+      setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
     }, [cssProps]);
-    return { styleJsx, cleanProps };
+    
+    return { styleJsx, nonCssProps };
   } else {
     
-    const [styleJsx, setStyleJsx] = useState<string>("");
-    
     useEffect(() => {
-      setStyleJsx(createStyledJsxStrings(props, config, remBase));
+      setStyleJsx(createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }));
     }, [cssProps]);
     
-    return { styleJsx: styleJsx || createStyledJsxStrings(props, config, remBase), cleanProps };
+    return { styleJsx: styleJsx || createStyledJsxStrings(props, { remBase, breakPoints, fontSizes, space, ...config }), nonCssProps };
   }
 }
