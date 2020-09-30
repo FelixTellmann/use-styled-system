@@ -4,28 +4,42 @@ A custom [React Hook](https://reactjs.org/docs/hooks-overview.html) to help you 
 
 ## How it works
 
-1.  By toggling a CSS class on whatever element you specify (defaults to `document.body`).
-    You then setup your CSS to display different views based on the presence of the selector. For example, the following CSS is used in the demo app to ease the background color in/out of dark mode.
+`use-styled-system` provides a custom hook to inject all common [styled-system](https://styled-system.com/) props into `<style jsx>` tags. Its especially made to work seamless within any NextJs environment. The hook is completely build with Typescript and provides excellent support for all CSS props, including proper scoping.
 
-    ```css
-    body.light-theme {
-      background-color: #fff;
-      color: #333;
-      transition: background-color 0.3s ease;
+Currently `use-styled-system` uses Javascript and  `.matchMedia` media queries and global context for responsive css. The syntax is the same as with styled system. i.e. 
+```JSX
+<Box as='div' p={['20px 10px', 60]}>...</Box>
+```
+ translates into the following for matchMedia below the first breakpoint ie. 600px
+ ```HTML
+<div class="jsx-123">
+...
+</div>
+<style>
+    .jsx-123 {
+        padding: 20px 10px
     }
-    body.dark-theme {
-      background-color: #1a1919;
-      color: #999;
+</style>
+```
+and automatically changes to the below once the next media query is triggered.
+ ```HTML
+<div class="jsx-123">
+...
+</div>
+<style>
+    .jsx-123 {
+        padding: 60px
     }
-    ```
+</style>
+```
 
-2.  If you don't use global classes, you can specify an `onChange` handler and take care of the implementation of switching to dark mode yourself.
+## Roadmap
 
-- Support for Server Side Rendering (SSR) in version 2.2 and above.
+In next versions the focus will be on adding support for Pseudo Selectors, CSS based Media Queries and autoprefix injection.
 
 ## Requirement
 
-To use `use-styled-system`, you must use  `styled-jsx@3.0.0` and `react@16.8.0` or greater which includes Hooks.
+To use `use-styled-system`, you must use  `styled-jsx@3.0.0`  and `react@16.8.0` or greater which includes Hooks (both shipped with Nextjs).
 
 ## Installation
 
@@ -35,111 +49,148 @@ $ npm i use-styled-system
 
 ## Usage
 
-```js
+The usage within a NextJs environment works out of the box. Any other environment needs [react](https://github.com/facebook/react) & [styled-jsx](https://github.com/vercel/styled-jsx) as a peer dependency. Refer to their docs for more information.
 
-//TODO show example usage
+```tsx
+/* import only the Types that you need */
+import { FC } from 'react';
+import { Decor, Layout, Space, useStyledSystem } from 'use-styled-system';
 
-
+export const Box: FC<Space & Layout & Decor> = (props) => {
+  
+  const { styleJsx, nonCssProps } = useStyledSystem(props, { Space: true, Layout: true, Decor: true });
+  
+  return <>
+      <div {...nonCssProps}>{props.children}</div>
+      <style jsx>{`
+        div {
+          color: red;
+          ${styleJsx}
+        }
+      `}</style>
+  </>
+}
 ```
+
+`use-styled-system` returns an Abject with two items:
+    1. `styleJSX` which is a string containing all CSS properties and values
+    2. `nonCssProps` which is an Object with the previously added Props, filtered for any Css props.
 
 ### Parameters
 
-You pass `useStyledSystem` an `initialState` (a boolean specifying whether it should be in dark mode
-by default) and an optional `colorThemeConfig` object. The configuration object may contain the following keys.
+You pass `useStyledSystem` the props (or rest of props, using the `...` spread operator) an optional `Config` object. The configuration object may contain the following keys.
 
-| Key               | Description                                                                                                                                                                                                                                                                                                               |
-| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `classNames`      | The classes to apply. Default = [`'light-theme'`,`'dark-theme'`].                                                                                                                                                                                                                                                                             |
-| `element`         | The element to apply the class name. Default = `document.body`.                                                                                                                                                                                                                                                           |
-| `onChange`        | A function that will be called when the dark mode value changes and it is safe to access the DOM (i.e. it is called from within a `useEffect`). If you specify `onChange` then `classNames`, and `element` are ignored (i.e. no classes are automatically placed on the DOM). You have full control! |
-| `storageKey`      | A string that will be used by the `storageProvider` to persist the dark mode value. If you specify a value of `null`, nothing will be persisted. Default = `colorTheme`.                                                                                                                                                                                                                   |
-| `storageProvider` | A storage provider. Default = `localStorage`. You will generally never need to change this value.                                                                                                                                                                                                                       |
+| Key               | Description                                                                          | Type            | Default                                                                                       |
+|:------------------|:-------------------------------------------------------------------------------------|:-------------------------| :-----------------------------------------------------------------------------------|
+|`remBase`          | Sets the base size to use rem properties wherever possible (defaults to 10px)        | number          | 10                                                                                            |
+|`fontSizes`        | Sets the fontsizes shortcuts for common sizes. i.e.`fontSize={3}` equals to `20px`   | (number)[]      | [12, 14, 16, 20, 24, 32, 48, 64, 72]                                                          |
+|`spaceSizes`            | Sets the space shortcuts for common sizes. i.e.`marginBottom={3}` equals to `16px`   | (number)[]      | [0, 4, 8, 16, 32, 64, 128, 256, 512]                                                          |
+|`Padding`          | Activates `Padding` properties to be used as Props                                   | boolean         | false                                                                                         |
+|`Margin`           | Activates `Margin` properties to be used as Props                                    | boolean         | false                                                                                         |
+|`Size`             | Activates `Size` properties to be used as Props                                      | boolean         | false                                                                                         |
+|`Space`            | Shortcut to activate `Padding`, `Margin`, and `Size` properties as Props             | boolean         | false                                                                                         |
+|`Position`          | Activates `Position` properties to be used as Props                                   | boolean         | false                                                                                         |
+|`Flex`           | Activates `Flex` properties to be used as Props                                    | boolean         | false                                                                                         |
+|`Grid`             | Activates `Grid` properties to be used as Props                                      | boolean         | false                                                                                         |
+|`Layout`            | Shortcut to activate `Position`, `Flex`, and `Grid` properties as Props             | boolean         | false                                                                                         |
+|`Border`          | Activates `Border` properties to be used as Props                                   | boolean         | false                                                                                         |
+|`Color`           | Activates `Color` properties to be used as Props                                    | boolean         | false                                                                                         |
+|`Typography`             | Activates `Typography` properties to be used as Props                                      | boolean         | false                                                                                         |
+|`Decor`            | Shortcut to activate `Border`, `Color`, and `Typography` properties as Props             | boolean         | false                                                                                         |
+|`Other`             | Activates `Other` properties to be used as Props                                      | boolean         | false                                                                                         |
+|`All`             | Activates *all* of the above  properties to be used as Props. * **Defaults to true if no other property is selected**                                      | boolean         | false*                                                                                         | 
 
 ### Return object
 
-A `colorTheme` object is returned with the following properties.
+A `useStyleSystem` object is returned with the following properties.
 
 | Key         | Description                                             |
 | :---------- | :------------------------------------------------------ |
-| `value`     | A boolean containing the current state of dark mode.    |
-| `set('value')`  | A function that allows you to set color theme to to `'value'`.  |
-| `toggle()`  | A function that allows you to toggle dark mode.         |
+| `styleJsx     | string of all css properties    |
+| `nonCssProps`  | Props filtered for any non CSS prop  |
 
-Note that because the methods don't require any parameters, you can call them
-direcly from an `onClick` handler from a button, for example
-(i.e., no lambda function is required).
+## Examples
 
-## Example
+Using `style-jsx/css` `.resolve` functionality to create custom elements.
 
-Here is a simple component that uses `useColorTheme` to provide a dark mode toggle control.
-If dark mode is selected, the CSS class `color-theme` is applied to `document.body` and is removed
-when de-selected.
+```tsx
+import { createElement, FC } from 'react';
+import { CSS, useStyledSystem } from 'use-styled-system';
+import { css } from 'styled-jsx/css';
 
-```jsx
-import React from 'react';
-import useColorTheme from 'use-color-theme';
-
-import Toggle from './Toggle';
-
-const colorThemeToggle = () => {
-  const colorTheme = useColorTheme(false);
-
-  return (
-    <div>
-      <button type="button" onClick={colorTheme.disable}>
-        ☀
-      </button>
-      <Toggle checked={colorTheme.value} onChange={colorTheme.toggle} />
-      <button type="button" onClick={colorTheme.enable}>
-        ☾
-      </button>
-    </div>
-  );
-};
-
-export default colorThemeToggle;
-```
-
-## That flash!
-
-If your CSS is setup to default to light-theme, but the user selects dark mode,
-the next time they visit your app, they will be in dark mode.
-However, the user will see a flash of light-theme before the app is spun up
-and `useColorTheme` is called.
-
-To prevent this, I've included some vanilla JavaScript that you can insert in your
-`index.html` just after the `<body>` tag. It is in a file named `noflash.js.txt`
-You can either insert the contents of this file in a `<script>` tag or automate the
-step in your build process.
-
-Note that if you change any of the default—such as `storageKey` or `classNames` for example—the `noflash.js` file will need to be modified with the same values.
-
-
-### Next.js
-
-For next.js uses copy the `noflash.js.txt` to your `public` folder (`public/noflash.js`) and then create a `_document.js` and include the script **before** `<Main />`.
-
-```js
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-
-class MyDocument extends Document {
-  render() {
-    return (
-      <Html>
-        <Head />
-        <body>
-          <script src="noflash.js" />
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
-    );
-  }
+type BoxProps = {
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'code' | 'blockquote' | 'a'
+  className?: string
+  onClick?: Function
 }
 
-export default MyDocument;
+export const Text: FC<BoxProps & CSS> = ({ as = 'p', children, className = '', ...props }) => {
+  const { styleJsx, nonCssProps } = useStyledSystem(props, { Decor: true, Space: true, Other: true });
+  const { className: cssClass, styles } = css.resolve`${styleJsx}`;
+  return <>
+    {createElement(as, { className: `${cssClass} ${className}`, ...nonCssProps }, children)}
+    {styles}
+  </>;
+};
+
+export default Text;
 ```
 
+use with `styled-jsx-plugin-sass` in a Link Component.
+
+```tsx
+import { FC, MouseEvent } from 'react';
+import NextLink from 'next/link';
+import { Decor, Layout, Space, useStyledSystem } from 'use-styled-system';
+
+type LinkProps = {
+  onClick?: (event: MouseEvent) => void
+  href: string
+  title: string | JSX.Element
+  target?: string
+  className?: string
+  secondary?: boolean
+  small?: boolean
+  large?: boolean
+};
+
+export const Link: FC<LinkProps & Space & Layout & Decor> = ({ onClick, className = '', href, target, title, secondary, small, large, children, ...props }) => {
+  
+  const { styleJsx, nonCssProps } = useStyledSystem(props, { Space: true, Layout: true, Decor: true });
+  const classNames = `link ${secondary ? 'secondary' : ''} ${small ? 'small' : ''} ${large ? 'large' : ''} ${className}`.trim();
+  return <>
+    <NextLink href={href}>
+      <a target={target} className={classNames} onClick={onClick} {...nonCssProps}>{title}</a>
+    </NextLink>
+    
+    <style jsx>{`
+      .link {
+        cursor: pointer;
+        color: var(--color-link);
+        font-family: inherit;
+        text-decoration: none;
+        transition: color 0.25s, background-color 0.25s;
+
+        &.small {
+          font-size: 1.4rem;
+        }
+
+        &.large {
+          font-size: 1.8rem;
+        }
+        
+        &:hover {
+          color: var(--color-link-hover)
+        }
+
+        ${styleJsx}
+      }
+    `}</style>
+  </>;
+};
+
+export default Link;
+```
 ## License
 
 **[MIT](LICENSE)** Licensed

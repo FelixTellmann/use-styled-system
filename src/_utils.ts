@@ -53,7 +53,7 @@ export const hasResponsiveProps = (props) => {
   return false;
 };
 
-export const createStyledJsxStrings = (props: {}, { remBase, fontSizes, space, breakPointIndex, ...config }: config) => {
+export const createStyledJsxStrings = (props: {}, { remBase, fontSizes, spaceSizes, breakPointIndex, ...config }: config & { breakPointIndex?: number }) => {
   /*================ Load Options ================*/
   let selectedCSSOptions: {};
   if (isEmpty(config)) {
@@ -125,8 +125,8 @@ export const createStyledJsxStrings = (props: {}, { remBase, fontSizes, space, b
         return fontSizes[value] / remBase + "rem";
       }
       
-      if (typeof value === "number" && value >= 0 && value <= space.length && converter === "space") {
-        return space[value] / remBase + "rem";
+      if (typeof value === "number" && value >= 0 && value <= spaceSizes.length && converter === "space") {
+        return spaceSizes[value] / remBase + "rem";
       }
       
       if (typeof value === "number" && value > 8) {
