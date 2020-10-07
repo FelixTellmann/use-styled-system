@@ -97,7 +97,7 @@ type useStyledSystemProps = {
   nonCssProps: any
 }
 
-function useStyledSystem(props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], spaceSizes = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config): useStyledSystemProps  {
+const useStyledSystem = (props, { remBase = 10, fontSizes = [12, 14, 16, 20, 24, 32, 48, 64, 72], spaceSizes = [0, 4, 8, 16, 32, 64, 128, 256, 512], ...config }: config): useStyledSystemProps => {
   const breakPointIndex = React.useContext(BreakpointContext)
   const { cssProps, nonCssProps } = splitProps(props);
   
