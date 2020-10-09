@@ -84,28 +84,20 @@ const useStyledSystem = (
   useEffect(() => {
     if (hasResponsiveProps(cssProps)) {
       setStyleJsx(
-          createStyledJsxStrings(cssProps, {
-            remBase,
-            fontSizes,
-            spaceSizes,
-            breakPointIndex,
-            ...config
-          })
+        createStyledJsxStrings(cssProps, {
+          remBase,
+          fontSizes,
+          spaceSizes,
+          breakPointIndex,
+          ...config
+        })
       );
     }
   }, [breakPointIndex, config, cssProps, fontSizes, remBase, spaceSizes]);
-  
+
   console.log(styleJsx);
   return {
-    styleJsx:
-      styleJsx ||
-      createStyledJsxStrings(props, {
-        remBase,
-        fontSizes,
-        spaceSizes,
-        breakPointIndex,
-        ...config
-      }),
+    styleJsx,
     nonCssProps
   };
 };
