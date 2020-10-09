@@ -1,4 +1,4 @@
-import { Typography, Padding, Border, Color, Flex, Grid, Size, Margin, Other, Position } from './css';
+import { Border, Color, Flex, Grid, Margin, Other, Padding, Position, Size, Typography } from './css';
 
 export type ConfigProps = {
   Padding?: boolean;
@@ -25,7 +25,7 @@ export type ConfigProps = {
 };
 
 export const splitProps = (
-  props: {},
+  props: unknown,
   CssOptions = Object.keys({ ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other })
 ) => {
   return Object.keys(props).reduce(
@@ -51,18 +51,23 @@ export const splitProps = (
         }
       };
     },
-    { cssProps: {}, nonCssProps: {} }
+    {
+      cssProps: {},
+      nonCssProps: {}
+    }
   );
 };
 
-export function isEmpty(obj) {
+export function isEmpty(obj): boolean {
+  // eslint-disable-next-line guard-for-in,no-restricted-syntax
   for (const i in obj) return false;
   return true;
 }
 
 export const hasResponsiveProps = (props) => {
+  // eslint-disable-next-line no-restricted-syntax
   for (const key in props) {
-    if (props.hasOwnProperty(key) && Array.isArray(props[key])) {
+    if (Object.prototype.hasOwnProperty.call(props, key) && Array.isArray(props[key])) {
       return true;
     }
   }
@@ -74,7 +79,7 @@ export const createStyledJsxStrings = (
   { remBase, fontSizes, spaceSizes, breakPointIndex, ...config }: ConfigProps & { breakPointIndex?: number }
 ) => {
   /*= =============== Load Options ================ */
-  let selectedCSSOptions: {};
+  let selectedCSSOptions:  unknown;
   if (isEmpty(config)) {
     selectedCSSOptions = { ...Padding, ...Margin, ...Size, ...Position, ...Flex, ...Grid, ...Border, ...Color, ...Typography, ...Other };
   }
@@ -125,50 +130,50 @@ export const createStyledJsxStrings = (
     return acc;
   }, {});
   const { cssProps } = splitProps(props, Object.keys(selectedCSSOptions));
-
-  const expandToCssPropertyStrings = (key, value) => {
-    const convertValue = (key: string, value: number | string) => {
-      function toStringAndVariables(value) {
-        return value.toString().replace(/^--.+/, (match) => `var(${match})`);
-      }
-
-      let converter = '';
-      if (selectedCSSOptions[key] === '') {
-        return toStringAndVariables(value);
-      }
-      if (Array.isArray(selectedCSSOptions[key])) {
-        converter = selectedCSSOptions[key][0];
-      } else {
-        converter = selectedCSSOptions[key];
-      }
-
-      if (typeof value === 'number' && value >= 0 && value <= fontSizes.length && converter === 'fontSize') {
-        return `${fontSizes[value] / remBase}rem`;
-      }
-
-      if (typeof value === 'number' && value >= 0 && value <= spaceSizes.length && converter === 'space') {
-        return `${spaceSizes[value] / remBase}rem`;
-      }
-
-      if (typeof value === 'number' && value > 8) {
-        return `${value / remBase}rem`;
-      }
-
-      if (typeof value === 'string') {
-        return value.match(/(px)$/) ? `${+value.replace('px', '') / remBase}rem` : toStringAndVariables(value);
-      }
-
+  const toStringAndVariables = (value: string | number): string => value.toString().replace(/^--.+/, (match) => `var(${match})`);
+  const convertValue = (key: string, value: number | string) => {
+    let converter = '';
+    if (selectedCSSOptions[key] === '') {
       return toStringAndVariables(value);
-    };
-    const toCssProperty = (key, value) => `${key.replace(/([A-Z])/g, (match) => `-${match.toLowerCase()}`)}: ${convertValue(key, value)};\n`;
+    }
     if (Array.isArray(selectedCSSOptions[key])) {
+      [converter] = selectedCSSOptions[key];
+    } else {
+      converter = selectedCSSOptions[key];
+    }
+
+    if (typeof value === 'number' && value >= 0 && value <= fontSizes.length && converter === 'fontSize') {
+      return `${fontSizes[value] / remBase}rem`;
+    }
+
+    if (typeof value === 'number' && value >= 0 && value <= spaceSizes.length && converter === 'space') {
+      return `${spaceSizes[value] / remBase}rem`;
+    }
+
+    if (typeof value === 'number' && value > 8) {
+      return `${value / remBase}rem`;
+    }
+
+    if (typeof value === 'string') {
+      // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
+      return value.match(/(px)$/) ? `${+value.replace('px', '') / remBase}rem` : toStringAndVariables(value);
+    }
+
+    return toStringAndVariables(value);
+  };
+  const toCssProperty = (key, value): string => `${key.replace(/([A-Z])/g, (match) => `-${match.toLowerCase()}`)}: ${convertValue(key, value)};\n`;
+  
+
+  const expandToCssPropertyStrings = (key, value): string => {
+    if (Array.isArray(selectedCSSOptions[key])) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return selectedCSSOptions[key].map((k) => toCssProperty(k === '' || k === 'space' || k === 'fontSize' ? key : k, value)).join('');
     }
     return toCssProperty(key, value);
   };
 
   return Object.entries(cssProps)
-    .reduce((acc, [key, value]) => {
+    .reduce((acc: string[], [key, value]) => {
       // check if responsive
       if (Array.isArray(value) && typeof window !== 'undefined') {
         acc.push(
