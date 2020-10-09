@@ -98,4 +98,4 @@ export const Border = {
   borderYStyle: ["borderTopStyle", "borderBottomStyle"]
 };
 
-export default Border;
+

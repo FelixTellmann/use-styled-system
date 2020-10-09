@@ -49,4 +49,3 @@ export const Flex = {
   order: ""
 };
 
-export default Flex;

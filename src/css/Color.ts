@@ -51,7 +51,7 @@ export const Color = {
   opacity: "",
   backgroundAttachment: "",
   backgroundClip: ["", '-webkit-background-clip'],
-  ['-webkit-background-clip']: "",
+  '-webkit-background-clip': "",
   backgroundColor: "",
   backgroundImage: "",
   backgroundOrigin: "",
@@ -59,7 +59,7 @@ export const Color = {
   backgroundPositionY: "space",
   backgroundSize: "space",
   backdropFilter: ["", '-webkit-backdropFilter'],
-  ['-webkit-backdropFilter']: "",
+  '-webkit-backdropFilter': "",
   boxShadow: "",
   outline: "",
   outlineColor: "",
@@ -69,4 +69,3 @@ export const Color = {
   visibility: ""
 };
 
-export default Color;

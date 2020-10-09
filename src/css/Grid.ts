@@ -43,4 +43,3 @@ export const Grid = {
   gridTemplateAreas: ""
 };
 
-export default Grid

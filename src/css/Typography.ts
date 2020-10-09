@@ -44,4 +44,3 @@ export const Typography = {
   wordBreak: ""
 };
 
-export default Typography

@@ -40,4 +40,3 @@ export const Margin = {
   my: ['marginTop', 'marginBottom']
 };
 
-export default Margin;

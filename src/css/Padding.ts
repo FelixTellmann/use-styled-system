@@ -40,4 +40,3 @@ export const Padding = {
   py: ['paddingTop', 'paddingBottom']
 };
 
-export default Padding;

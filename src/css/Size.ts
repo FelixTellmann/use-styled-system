@@ -47,4 +47,3 @@ export const Size = {
   verticalAlign: ""
 };
 
-export default Size;

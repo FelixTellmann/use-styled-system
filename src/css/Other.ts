@@ -35,4 +35,3 @@ export const Other = {
   pointerEvents: "",
 };
 
-export default Other;

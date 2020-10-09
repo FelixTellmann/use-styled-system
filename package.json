@@ -19,7 +19,9 @@
     "test:watch": "jest --watch --runInBand --silent",
     "prebuild": "rimraf dist",
     "build": "microbundle -o dist/ --jsx --sourcemap false --target web",
-    "dev": "microbundle watch -o dist/ --jsx --sourcemap false --compress false"
+    "dev": "microbundle watch -o dist/ --jsx --sourcemap false --compress false",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
     "react": "^16.13.1",
@@ -33,7 +35,7 @@
     "babel-core": "^6.26.3",
     "babel-jest": "^26.3.0",
     "csstype": "2.6.12",
-    "eslint": "^7.9.0",
+    "eslint": "^7.10.0",
     "eslint-config-amex": "^13.1.0",
     "eslint-plugin-react-hooks": "^4.1.2",
     "jest": "^26.4.2",
@@ -59,6 +61,15 @@
   ],
   "devDependencies": {
     "@types/node": "^14.11.5",
-    "@types/react": "^16.9.51"
+    "@types/react": "^16.9.51",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-typescript": "^11.0.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.3"
   }
 }

@@ -31,4 +31,3 @@ export const Position = {
   zIndex: ""
 };
 
-export default Position
