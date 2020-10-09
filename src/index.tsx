@@ -83,6 +83,7 @@ const useStyledSystem = (
 
   useEffect(() => {
     if (hasResponsiveProps(cssProps)) {
+      console.log(cssProps);
       setStyleJsx(
         createStyledJsxStrings(cssProps, {
           remBase,
