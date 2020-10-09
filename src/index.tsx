@@ -80,10 +80,8 @@ const useStyledSystem = (
   const { cssProps, nonCssProps } = splitProps(props);
 
   const [styleJsx, setStyleJsx] = useState<string>('');
-
-  useEffect(() => {
-    if (hasResponsiveProps(cssProps)) {
-      console.log(cssProps);
+  if (hasResponsiveProps(cssProps)) {
+    useEffect(() => {
       setStyleJsx(
         createStyledJsxStrings(cssProps, {
           remBase,
@@ -93,9 +91,9 @@ const useStyledSystem = (
           ...config
         })
       );
-    }
-  }, [breakPointIndex, config, cssProps, fontSizes, remBase, spaceSizes]);
-
+    }, [breakPointIndex, config, cssProps, fontSizes, remBase, spaceSizes]);
+  }
+  
   useEffect(() => {
     setStyleJsx(
       createStyledJsxStrings(cssProps, {
