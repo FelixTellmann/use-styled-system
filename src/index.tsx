@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ConfigProps, createStyledJsxStrings, hasResponsiveProps, splitProps } from './_utils';
+import { ConfigProps, createStyledJsxStrings, splitProps } from './_utils';
 import {
   BorderProperties,
   ColorProperties,
@@ -12,6 +12,19 @@ import {
   SizeProperties,
   TypographyProperties
 } from './css';
+
+export {
+  BorderProperties,
+  ColorProperties,
+  FlexProperties,
+  GridProperties,
+  MarginProperties,
+  OtherProperties,
+  PaddingProperties,
+  PositionProperties,
+  SizeProperties,
+  TypographyProperties
+};
 
 export type Space = PaddingProperties & MarginProperties & SizeProperties;
 export type Layout = PositionProperties & FlexProperties & GridProperties;
