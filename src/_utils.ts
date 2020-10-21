@@ -169,7 +169,7 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
     }
     
     const result = postcss([autoprefixer]).process(toCssProperty(key, value)).then(({ css }) => css).toString();
-    return result || toCssProperty(key, value);
+    return toCssProperty(key, value);
   };
   
   return Object.entries(cssProps).reduce((acc: string[], [key, value]) => {
