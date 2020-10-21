@@ -131,6 +131,7 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
   const convertValue = (key: string, value: number | string) => {
     let converter = "";
     if (selectedCSSOptions[key] === "") {
+      console.log(toStringAndVariables((value)))
       return toStringAndVariables(value);
     }
     if (Array.isArray(selectedCSSOptions[key])) {
