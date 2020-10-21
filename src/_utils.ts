@@ -169,9 +169,17 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
     }
     
     /* const result = postcss([autoprefixer]).process(toCssProperty(key, value)).then(({ css }) => css).toString(); */
-    const prefixer = postcss.sync([autoprefixer])
+    const prefixer = postcss.sync([autoprefixer]);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return prefixer(toCssProperty(key, value)).toString();
+    return Object.entries(prefixer(toCssProperty(key, value))).map(([key, value]) => {
+      if (Array.isArray(value) && value.length > 1) {
+        return value.map((val) => {
+          return `${key}: ${val};`;
+        }).join("");
+      }
+      return `${key}: ${value};`;
+      
+    }).join("");
   };
   
   return Object.entries(cssProps).reduce((acc: string[], [key, value]) => {
