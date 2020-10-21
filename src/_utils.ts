@@ -1,4 +1,7 @@
+import postcss from 'postcss';
+import autoprefixer from 'autoprefixer';
 import { Border, Color, Flex, Grid, Margin, Other, Padding, Position, Size, Typography } from "./css";
+
 
 export type ConfigProps = {
   Padding?: boolean;
@@ -165,7 +168,12 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return selectedCSSOptions[key].map((k) => toCssProperty(k === "" || k === "space" || k === "fontSize" ? key : k, value)).join("");
     }
-    console.log(toCssProperty(key, value))
+    
+    postcss([autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })])
+    .process(toCssProperty(key, value))
+    .then(function(result) {
+      console.log(result.css);
+    })
     return toCssProperty(key, value);
   };
   
