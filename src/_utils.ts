@@ -1,7 +1,6 @@
-import postcss from 'postcss';
-import autoprefixer from 'autoprefixer';
+import autoprefixer from "autoprefixer";
+import postcss from "postcss";
 import { Border, Color, Flex, Grid, Margin, Other, Padding, Position, Size, Typography } from "./css";
-
 
 export type ConfigProps = {
   Padding?: boolean;
@@ -163,31 +162,28 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
   };
   const toCssProperty = (key, value): string => `${key.replace(/([A-Z])/g, (match) => `-${match.toLowerCase()}`)}: ${convertValue(key, value)};\n`;
   
-  const expandToCssPropertyStrings = (key, value): string => {
+  const expandToCssPropertyStrings = async (key, value): Promise<string> => {
     if (Array.isArray(selectedCSSOptions[key])) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return selectedCSSOptions[key].map((k) => toCssProperty(k === "" || k === "space" || k === "fontSize" ? key : k, value)).join("");
     }
     
-    postcss([autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })])
-    .process(toCssProperty(key, value))
-    .then(function(result) {
-      console.log(result.css);
-    })
-    return toCssProperty(key, value);
+    return await postcss([autoprefixer]).process(toCssProperty(key, value)).then((result) => { return result.css; });
   };
   
-  return Object.entries(cssProps).reduce((acc: string[], [key, value]) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return Object.entries(cssProps).reduce(async (acc: string[], [key, value]): Promise<string[]> => {
     // check if responsive
     if (Array.isArray(value) && typeof window !== "undefined") {
       acc.push(
-          expandToCssPropertyStrings(key, value[breakPointIndex] || value[breakPointIndex] === 0
-                                          ? value[breakPointIndex]
-                                          : value[value.length - 1])
+          await expandToCssPropertyStrings(key, value[breakPointIndex] || value[breakPointIndex] === 0
+                                                ? value[breakPointIndex]
+                                                : value[value.length - 1])
       );
       // if not responsive
     } else {
-      acc.push(expandToCssPropertyStrings(key, Array.isArray(value) ? value[0] : value));
+      acc.push(await expandToCssPropertyStrings(key, Array.isArray(value) ? value[0] : value));
     }
     
     return acc;
