@@ -1,5 +1,5 @@
 import autoprefixer from "autoprefixer";
-import postcss from "postcss";
+import postcss from "postcss-js";
 import { Border, Color, Flex, Grid, Margin, Other, Padding, Position, Size, Typography } from "./css";
 
 export type ConfigProps = {
@@ -168,8 +168,10 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
       return selectedCSSOptions[key].map((k) => toCssProperty(k === "" || k === "space" || k === "fontSize" ? key : k, value)).join("");
     }
     
-    const result = postcss([autoprefixer]).process(toCssProperty(key, value)).then(({ css }) => css).toString();
-    return toCssProperty(key, value);
+    /* const result = postcss([autoprefixer]).process(toCssProperty(key, value)).then(({ css }) => css).toString(); */
+    const prefixer = postcss.sync([autoprefixer])
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return prefixer(toCssProperty(key, value));
   };
   
   return Object.entries(cssProps).reduce((acc: string[], [key, value]) => {
