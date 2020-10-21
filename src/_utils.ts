@@ -131,7 +131,6 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
   const convertValue = (key: string, value: number | string) => {
     let converter = "";
     if (selectedCSSOptions[key] === "") {
-      console.log(toStringAndVariables((value)))
       return toStringAndVariables(value);
     }
     if (Array.isArray(selectedCSSOptions[key])) {
@@ -166,6 +165,7 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return selectedCSSOptions[key].map((k) => toCssProperty(k === "" || k === "space" || k === "fontSize" ? key : k, value)).join("");
     }
+    console.log(toCssProperty(key, value))
     return toCssProperty(key, value);
   };
   
