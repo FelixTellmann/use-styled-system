@@ -74,10 +74,7 @@ export const hasResponsiveProps = (props) => {
   return false;
 };
 
-export const createStyledJsxStrings = (
-    props: unknown,
-    { remBase, fontSizes, spaceSizes, breakPointIndex, ...config }: ConfigProps & { breakPointIndex?: number }
-) => {
+export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spaceSizes, breakPointIndex, ...config }: ConfigProps & { breakPointIndex?: number }) => {
   /*= =============== Load Options ================ */
   let selectedCSSOptions: unknown;
   if (isEmpty(config)) {

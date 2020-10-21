@@ -57,10 +57,9 @@ const BreakpointProvider: FC<BreakPointProviderProps> = ({ children, breakPoints
     if (window && window.matchMedia) {
       let matches = 0;
       breakPoints.forEach((bp, index) => {
-        mediaQueryLists.push(
-            window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1]
-                                                                ? ` and (max-width: ${breakPoints[index + 1] - 1}px`
-                                                                : ""}`)
+        mediaQueryLists.push(window.matchMedia(`screen and (min-width: ${bp}px)${breakPoints[index + 1]
+                                                                                 ? ` and (max-width: ${breakPoints[index + 1] - 1}px`
+                                                                                 : ""}`)
         );
         matches = mediaQueryLists[index].matches ? index : matches;
       });
