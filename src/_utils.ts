@@ -162,28 +162,27 @@ export const createStyledJsxStrings = (props: unknown, { remBase, fontSizes, spa
   };
   const toCssProperty = (key, value): string => `${key.replace(/([A-Z])/g, (match) => `-${match.toLowerCase()}`)}: ${convertValue(key, value)};\n`;
   
-  const expandToCssPropertyStrings = async (key, value): Promise<string> => {
+  const expandToCssPropertyStrings = (key, value): string => {
     if (Array.isArray(selectedCSSOptions[key])) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return selectedCSSOptions[key].map((k) => toCssProperty(k === "" || k === "space" || k === "fontSize" ? key : k, value)).join("");
     }
     
-    return await postcss([autoprefixer]).process(toCssProperty(key, value)).then((result) => { return result.css; });
+    const result = postcss([autoprefixer]).process(toCssProperty(key, value)).then(({ css }) => css).toString();
+    return result || toCssProperty(key, value);
   };
   
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return Object.entries(cssProps).reduce(async (acc: string[], [key, value]): Promise<string[]> => {
+  return Object.entries(cssProps).reduce((acc: string[], [key, value]) => {
     // check if responsive
     if (Array.isArray(value) && typeof window !== "undefined") {
       acc.push(
-          await expandToCssPropertyStrings(key, value[breakPointIndex] || value[breakPointIndex] === 0
-                                                ? value[breakPointIndex]
-                                                : value[value.length - 1])
+          expandToCssPropertyStrings(key, value[breakPointIndex] || value[breakPointIndex] === 0
+                                          ? value[breakPointIndex]
+                                          : value[value.length - 1])
       );
       // if not responsive
     } else {
-      acc.push(await expandToCssPropertyStrings(key, Array.isArray(value) ? value[0] : value));
+      acc.push(expandToCssPropertyStrings(key, Array.isArray(value) ? value[0] : value));
     }
     
     return acc;
