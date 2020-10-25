@@ -24,7 +24,6 @@
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "react": "^16.13.1",
     "styled-jsx": "^3.3.0"
   },
   "dependencies": {
@@ -44,8 +43,6 @@
     "microbundle": "^0.12.3",
     "postcss": "^8.1.2",
     "postcss-js": "^3.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "react-testing-library": "^8.0.1",
     "rimraf": "^3.0.2",
     "styled-jsx": "^3.3.0",
