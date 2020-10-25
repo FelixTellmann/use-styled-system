@@ -99,10 +99,9 @@ const useStyledSystem = (props: unknown, {
     256,
     512
   ], ...config
-}: ConfigProps): UseStyledSystemProps => {
+}: ConfigProps | undefined): UseStyledSystemProps => {
   const breakPointIndex = React.useContext(BreakpointContext);
   const { cssProps, nonCssProps } = splitProps(props);
-  
   const [styleJsx, setStyleJsx] = useState<string>("");
   
   useEffect(() => {
